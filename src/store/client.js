@@ -5,10 +5,9 @@ import { usersReducer } from './usersReducer'
 import thunk from 'redux-thunk'
 import promise from 'redux-promise-middleware'
 
-import { authenticateUser } from './actions/userActions'
 
 const reducers = combineReducers({
-	user:usersReducer,
+	users:usersReducer,
 	events:eventsReducer
 })
 
@@ -19,10 +18,4 @@ export const store = createStore(reducers, {}, middleware)
 store.subscribe(()=>{
 	console.log("Change:", store.getState());
 })
-
-
-// store.dispatch(authenticateUser("mike", "password"))
-store.dispatch({type:"AUTH_USER_PENDING"})
-
-
 
