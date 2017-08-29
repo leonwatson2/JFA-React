@@ -5,9 +5,12 @@ describe('AUTH_USER', ()=>{
 	const fakeTrueAuthState = { authenticating:true }
 	const fakeUser = { name:"Mike", password:"1234", username:"m22" }
 
-	it('should set authenticating to true', ()=>{
+	it('should set authenticating to true and error to empty string', ()=>{
 		const fakeState = { authenticating:false }
-		expect(usersReducer(fakeState, {type:A.AUTH_USER_PENDING})).toHaveProperty('authenticating', true)
+		const action = {type:A.AUTH_USER_PENDING}
+		
+		expect(usersReducer(fakeState, action)).toHaveProperty('authenticating', true)
+		expect(usersReducer(fakeState, action)).toHaveProperty('error', "")
 	})
 	
 	it('should set authenticating to false', ()=>{
@@ -23,6 +26,7 @@ describe('AUTH_USER', ()=>{
 		
 		expect(usersReducer(fakeTrueAuthState, action)).toHaveProperty('authenticating', false)
 	})
+
 
 	it('should set user to fakeUser', ()=>{
 		

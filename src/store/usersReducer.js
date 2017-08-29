@@ -6,7 +6,8 @@ export const usersReducer = (state = initialState, action) => {
 		case A.AUTH_USER_PENDING:
 			return {
 				...state,
-				authenticating:true
+				authenticating:true,
+				error: ""
 			}
 		case A.AUTH_USER_FULFILLED:
 			return {
@@ -23,6 +24,5 @@ export const usersReducer = (state = initialState, action) => {
 			}
 		default: 
 	}
-	console.log(state, action);
 	return state
 }

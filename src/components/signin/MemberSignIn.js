@@ -1,28 +1,30 @@
-import React, { Component } from 'react';
-
-
-export default class MemberSignIn extends Component {
+import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { authenticateUser } from '../../store/actions/userActions'
+class MemberSignIn extends Component {
 	constructor(props) {
 	  super(props);
 	
 	  this.state = {
-	  	username:"",
-	  	password:"",
-	  	error:"",
-	  	submitting:false
+	  	email:"",
+	  	password:""
 	  };
 	}
+
 	handleSubmit = (e)=>{
-		const { username, password } = this.state
+		const { email, password } = this.state
 		e.preventDefault()
-		console.log( username, password);
-			
+		this.props.authenticateUser(email, password)
 	}
+
 	render() {
-		const { error, submitting, username, password } = this.state
+		const { email, password } = this.state
+		const { submitting, error } = this.props
+
 		return (
 			<div className="card signin">
-				<h3>Member Sign In</h3>
+				<h3>Officer Sign In</h3>
 				<form onSubmit={this.handleSubmit} ref={(i)=>{ this.form = i }}>
 					{error && <div className="error">{error}</div>}
 					<div className="indicator"></div>
@@ -31,9 +33,9 @@ export default class MemberSignIn extends Component {
 						id = "email" 
 						type = "email"
 						name = "email"
-						value = {username}
+						value = {email}
 						placeholder = "president@untjfa.com"
-						onChange = {({target})=>{ this.setState({username:target.value}) }}
+						onChange = {({target})=>{ this.setState({email:target.value}) }}
 						required
 					/>
 					<label htmlFor="pass">Password</label>
@@ -47,12 +49,19 @@ export default class MemberSignIn extends Component {
 					/>
 
 					<button disabled={submitting} type="submit">
-						{submitting ? <span>Loading</span> : <span>Login</span>}
+						{submitting ? <span>Doing that thing.</span> : <span>Login</span>}
 					</button>
-					
-					
 				</form>
 			</div>
 		);
 	}
 }
+
+const mapStateToProps = ({users}) => ({
+	submitting: users.authenticating,
+	error:users.error
+})
+const mapDispatchToProps = dispatch => ({
+	authenticateUser:bindActionCreators(authenticateUser, dispatch)
+})
+export default connect(mapStateToProps, mapDispatchToProps)(MemberSignIn)
