@@ -12,7 +12,8 @@ export const usersReducer = (state = initialState, action) => {
 			return {
 				...state,
 				user:action.payload.user,
-				authenticating:false
+				authenticating:false,
+				loggedIn:true
 			}
 		case A.AUTH_USER_REJECTED:
 			return {

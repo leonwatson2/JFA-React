@@ -6,20 +6,20 @@ describe('AUTH_USER', ()=>{
 	const fakeUser = { name:"Mike", password:"1234", username:"m22" }
 
 	it('should set authenticating to true', ()=>{
-		const fakeState = {authenticating:false}
+		const fakeState = { authenticating:false }
 		expect(usersReducer(fakeState, {type:A.AUTH_USER_PENDING})).toHaveProperty('authenticating', true)
 	})
 	
 	it('should set authenticating to false', ()=>{
 		
-		const action = {type:A.AUTH_USER_REJECTED, payload:{}}
+		const action = { type:A.AUTH_USER_REJECTED, payload:{} }
 		
 		expect(usersReducer(fakeTrueAuthState, action)).toHaveProperty('authenticating', false)
 	})
 	
 	it('should set authenticating to false', ()=>{
 		
-		const action = {type:A.AUTH_USER_FULFILLED, payload:{}}
+		const action = { type:A.AUTH_USER_FULFILLED, payload:{} }
 		
 		expect(usersReducer(fakeTrueAuthState, action)).toHaveProperty('authenticating', false)
 	})
@@ -31,10 +31,18 @@ describe('AUTH_USER', ()=>{
 		expect(usersReducer(fakeTrueAuthState, action)).toHaveProperty('user', fakeUser)
 	})
 
-	it('should set user to fakeUser and set authenticating to false', ()=>{
+	it('should set loggedIn to true', ()=>{
 		
 		const action = { type:A.AUTH_USER_FULFILLED, payload:{ user:fakeUser } }
-		const newState = { user:fakeUser, authenticating:false }
+		
+		expect(usersReducer(fakeTrueAuthState, action)).toHaveProperty('loggedIn', true)
+	})
+
+	it('should set user to fakeUser, set authenticating to false, & set loggedIn to true', ()=>{
+		
+		const action = { type:A.AUTH_USER_FULFILLED, payload:{ user:fakeUser } }
+		const newState = { user:fakeUser, authenticating:false, loggedIn:true }
+		
 		expect(usersReducer(fakeTrueAuthState, action)).toEqual(newState)
 
 	})
