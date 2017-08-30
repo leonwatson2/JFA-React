@@ -1,5 +1,5 @@
 import { userActionTypes as A } from './actions/userActions'
-const initialState = { loggedIn:false, authenticating:false, error:"", user:{} }
+const initialState = { loggedIn:false, authenticating:false, error:"", user:null }
 
 export const usersReducer = (state = initialState, action) => {
 	switch(action.type){

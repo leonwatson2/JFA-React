@@ -15,7 +15,7 @@ export const authenticateUser = (email, password)=>({
 	payload:new Promise((resolve, reject)=>{
 		setTimeout(()=>{
 			if(fakeUser.email === email && fakeUser.password === password){
-				resolve(fakeUser)
+				resolve({user:fakeUser})
 			}
 			reject({error:"Email/password are not valid"})
 		}, 2000)
