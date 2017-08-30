@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router'
 import { authenticateUser } from '../../store/actions/userActions'
 class MemberSignIn extends Component {
 	constructor(props) {
@@ -10,6 +11,17 @@ class MemberSignIn extends Component {
 	  	email:"",
 	  	password:""
 	  };
+	}
+	shouldComponentUpdate(nextProps, nextState) {
+		if(nextProps.user){
+			this.navigateToDashboard()
+			return false;
+		}
+		return true
+	}
+
+	navigateToDashboard = ()=>{
+		this.props.history.push('/dashboard')
 	}
 
 	handleSubmit = (e)=>{
@@ -21,6 +33,7 @@ class MemberSignIn extends Component {
 	render() {
 		const { email, password } = this.state
 		const { submitting, error } = this.props
+    	
 
 		return (
 			<div className="card signin">
@@ -59,9 +72,10 @@ class MemberSignIn extends Component {
 
 const mapStateToProps = ({users}) => ({
 	submitting: users.authenticating,
-	error:users.error
+	error:users.error,
+	user:users.user
 })
 const mapDispatchToProps = dispatch => ({
 	authenticateUser:bindActionCreators(authenticateUser, dispatch)
 })
-export default connect(mapStateToProps, mapDispatchToProps)(MemberSignIn)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MemberSignIn))
