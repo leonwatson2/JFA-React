@@ -18,7 +18,6 @@ class App extends Component {
 	getHeroPropsFromLocation = (routes, location)=>{
 		if(location === '/')
 			return {}
-		console.log(location);
 		const route = routes.find(r => r.path.includes(location) && r.path !== '/')
 		return { ...route, miniHero:true};
 

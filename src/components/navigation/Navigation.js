@@ -1,10 +1,19 @@
 import React, { Component } from 'react';
 import { NavLink, Link } from 'react-router-dom';
-import { routeConfig } from '../../App'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 
-export default class Navigation extends Component {
+import { routeConfig } from '../../App'
+import { logoutUser } from '../../store/actions/userActions'
+
+export class Navigation extends Component {
 	closeNav = (e)=>{
 		this.refs.navTrigger.checked = false
+	}
+
+	logout = (e)=>{
+		this.props.logout()
+		this.closeNav()
 	}
 	render() {
 		return (
@@ -25,10 +34,18 @@ export default class Navigation extends Component {
 						</NavLink>
 					))
 				}
-				<a onClick={this.closeNav}><li>Logout</li></a>
+				<a onClick={this.logout}><li>Logout</li></a>
 			</ul>
 
 		</div>
 		);
 	}
 }
+const mapStateToProps = () => ({
+
+})
+const mapDispatchToProps = dispatch =>({
+	logout:bindActionCreators(logoutUser, dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navigation)

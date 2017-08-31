@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router'
+import { withRouter, Redirect } from 'react-router'
 
 class OfficerDashboard extends Component {
 	componentWillMount() {
@@ -8,7 +8,10 @@ class OfficerDashboard extends Component {
 			this.props.history.push('/signin/')
 	}
 	render() {
-		const { officer } = this.props
+		const { officer, loggedIn } = this.props
+		if(!loggedIn){
+			return <Redirect to="/signin/" />
+		}
 		return (
 			<div><h2>Officer Dashboard - { officer && officer.name }</h2></div>
 		);
