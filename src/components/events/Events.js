@@ -19,6 +19,7 @@ class EventsComponent extends Component {
 
 		return (
 			<div className="main">
+				
 				{
 					events.map(event => (<Event key={event.id} event={event} />))
 				}

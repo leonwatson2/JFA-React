@@ -1,5 +1,5 @@
 import { eventActionTypes as A } from './actions/eventActions'
-export const initialState = { events:[], fetching:false }
+export const initialState = { events:[], fetching:false, editing:false, editEvent:null }
 
 
 export const eventsReducer = (state = initialState, action) => {

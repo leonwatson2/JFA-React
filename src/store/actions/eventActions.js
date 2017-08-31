@@ -6,7 +6,8 @@ const getEventActionTypes = createPromiseActionsFor("GET_EVENTS")
 
 export const eventActionTypes = {
 	...addEventActionTypes,
-	...getEventActionTypes
+	...getEventActionTypes,
+	EDIT_EVENT:"EDIT_EVENT"
 }
 
 export const getEvents = ()=>{
@@ -27,4 +28,9 @@ export const addEvent = (event)=>({
 			resolve(event)
 		}, 500)
 	})
+})
+
+export const editEvent = (isEditing)=>({
+	type:eventActionTypes.EDIT_EVENT,
+	payload: isEditing
 })
