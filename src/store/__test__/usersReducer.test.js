@@ -1,9 +1,9 @@
 import { usersReducer } from '../usersReducer'
-import { userActionTypes as A } from '../actions/userActions'
+import { userActionTypes as A, logoutUser } from '../actions/userActions'
 
+const fakeUser = { name:"Mike", password:"1234", username:"m22" }
 describe('AUTH_USER', ()=>{
 	const fakeTrueAuthState = { authenticating:true }
-	const fakeUser = { name:"Mike", password:"1234", username:"m22" }
 
 	it('should set authenticating to true and error to empty string', ()=>{
 		const fakeState = { authenticating:false }
@@ -58,4 +58,31 @@ describe('AUTH_USER', ()=>{
 		expect(usersReducer(fakeTrueAuthState, action)).toHaveProperty('error', fakeError)
 	})
 })
+
+
+describe('LOGOUT', ()=>{
+	
+	const fakeLoggedInUser = { user: fakeUser, loggedIn:true }
+
+	it('should set loggedIn to false', ()=>{
+		expect(usersReducer(fakeLoggedInUser, logoutUser())).toHaveProperty('loggedIn', false)
+	})
+
+	it('should set user to null',()=>{
+		expect(usersReducer(fakeLoggedInUser, logoutUser())).toHaveProperty('user', null)
+	})
+
+	it('should set user to null and loggedIn to false',()=>{
+		expect(usersReducer(fakeLoggedInUser, logoutUser())).toEqual({user:null, loggedIn:false})
+	})
+
+	it('should set user to null and loggedIn to false but not change state',()=>{
+		expect(usersReducer({authenticating:false, ...fakeLoggedInUser}, logoutUser())).toEqual({user:null, loggedIn:false, authenticating:false})
+	})
+
+})
+
+
+
+
 

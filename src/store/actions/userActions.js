@@ -3,6 +3,7 @@ import { createPromiseActionsFor } from './utils';
 
 export const userActionTypes = {
 	...createPromiseActionsFor("AUTH_USER"),
+	LOGOUT:"LOGOUT"
 }
 export const fakeUser = {
 	name:"Leon Watson",
@@ -20,4 +21,8 @@ export const authenticateUser = (email, password)=>({
 			reject({error:"Email/password are not valid"})
 		}, 2000)
 	})
+})
+
+export const logoutUser = () => ({
+	type:userActionTypes.LOGOUT
 })

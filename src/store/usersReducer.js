@@ -22,6 +22,12 @@ export const usersReducer = (state = initialState, action) => {
 				error:action.payload.error,
 				authenticating:false
 			}
+		case A.LOGOUT:
+			return {
+				...state,
+				loggedIn:false,
+				user:null
+			}
 		default: 
 	}
 	return state

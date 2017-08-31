@@ -6,7 +6,6 @@ export default class Home extends Component {
 	render() {
 		return (
 			<div>
-				
 				{ 
 					infos.map((info)=>{
 						return <HomeInfo key={info.id} {...info} />

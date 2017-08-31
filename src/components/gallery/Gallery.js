@@ -54,7 +54,7 @@ export default class JFAGallery extends Component {
 	render() {
 		const { selectedEvent } = this.state
 		const { routes } = this.props
-		console.log(this.props);
+		
 		return (	
 			<div >
 				<h3>Gal</h3>
