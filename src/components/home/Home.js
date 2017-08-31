@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Hero from '../Hero'
 import HomeInfo from './HomeInfo'
 import WhoInfo from './WhoInfo'
 export default class Home extends Component {
@@ -7,7 +6,7 @@ export default class Home extends Component {
 	render() {
 		return (
 			<div>
-				<Hero miniHero={false}/>
+				
 				{ 
 					infos.map((info)=>{
 						return <HomeInfo key={info.id} {...info} />

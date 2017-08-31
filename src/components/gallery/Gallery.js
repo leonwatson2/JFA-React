@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { events } from '../../data/media.json';
 import Gallery from 'react-grid-gallery';
-
+import { renderRouteWithSubRoutes } from '../../App'
 const jfaUrl = "http://untjfa.com"
+
 export default class JFAGallery extends Component {
 	constructor(props) {
 		super(props);
@@ -52,9 +53,9 @@ export default class JFAGallery extends Component {
 	
 	render() {
 		const { selectedEvent } = this.state
-		// const { events } = this.props
-		
-		return (
+		const { routes } = this.props
+		console.log(this.props);
+		return (	
 			<div >
 				<h3>Gal</h3>
 				<div className="wall-container">
@@ -89,6 +90,7 @@ export default class JFAGallery extends Component {
 						}
 					</div>
 				</div>
+				{routes && routes.map(renderRouteWithSubRoutes)}
 			</div>
 		);
 	}

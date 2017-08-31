@@ -1,22 +1,33 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-
+import { NavLink, Link } from 'react-router-dom';
+import { routeConfig } from '../../App'
 
 export default class Navigation extends Component {
+	closeNav = (e)=>{
+		this.refs.navTrigger.checked = false
+	}
 	render() {
 		return (
 		<div className="nav-container">
-			<a className="logo">
+			<Link to="/" className="logo">
 				<img src={ require('../../assets/images/logo.png') } alt="Juggling and Flow Arts Logo"/>
-			</a>
-			<input type="checkbox" id="nav-toggle"/>
+			</Link>
+			<input type="checkbox" id="nav-toggle" ref={'navTrigger'}/>
 			<label className="nav-trigger" htmlFor="nav-toggle"><span></span></label>
 			<ul className="nav">
-				<Link to="/gallery"><li>Gallery</li></Link>
-				<Link to="/signin"><li>Signin</li></Link>
-				<Link to="/events"><li>Events</li></Link>
-				<a><li>Logout</li></a>
+				{
+					routeConfig.map(({path, title})=>(
+						<NavLink exact 
+							key={path} 
+							to={path}
+							onClick={this.closeNav}>
+							<li>{title}</li>
+						</NavLink>
+					))
+				}
+				<a onClick={this.closeNav}><li>Logout</li></a>
 			</ul>
+
 		</div>
 		);
 	}

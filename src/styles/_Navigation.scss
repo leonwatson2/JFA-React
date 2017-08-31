@@ -77,6 +77,15 @@ $nav-ani-duration:.75s;
 			color:white;
 			
 		}
+		a.active{
+			li{
+				&::first-letter{
+					color:white !important;
+				}
+				width: 100%;
+				background-color: transparentize($brand-primary, .4);
+			}
+		}
 		a:hover, a:focus{
 				text-decoration: none;
 				outline:none;

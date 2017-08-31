@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Navigation from './navigation/Navigation';
 import PropTypes from 'prop-types'
+
 export default class Hero extends Component {
 	render() {
 		const { title, miniHero } = this.props;

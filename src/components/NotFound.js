@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import Hero from './Hero'
 
 export default class NotFound extends Component {
 	render() {
 		return (
 			<div >
-				<Hero title="404" miniHero={true}/>
 				<div className="container-404">
 					
 					<h2>Do you ever feel lost?</h2>
