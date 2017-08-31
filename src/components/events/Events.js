@@ -14,7 +14,6 @@ class EventsComponent extends Component {
 	}
 	render() {
 		const { events, fetching } = this.props
-		console.log(this.props);
 		
 		if(events.length === 0) return <h2>{fetching && 'Loading '}Events</h2>
 
