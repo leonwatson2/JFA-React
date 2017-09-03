@@ -1,5 +1,9 @@
 import { eventActionTypes as A } from './actions/eventActions'
-export const initialState = { events:[], fetching:false, editing:false, editEvent:null }
+export const initialState = { 
+							events:[], 
+							fetching:false, 
+							savingEvent:false 
+							}
 
 
 export const eventsReducer = (state = initialState, action) => {
@@ -25,19 +29,35 @@ export const eventsReducer = (state = initialState, action) => {
 		case A.ADD_EVENT_PENDING:
 			return { 
 					...state, 
-					fetching:true
+					savingEvent:true
 					}
 		case A.ADD_EVENT_FULFILLED:
 			return { 
 					...state, 
 					events:action.payload,
-					fetching:false
+					savingEvent:false
 
 					}
 		case A.ADD_EVENT_REJECTED:
 			return { 
 					...state, 
-					fetching:false
+					savingEvent:false
+					}
+		case A.UPDATE_EVENT_PENDING:
+			return { 
+					...state, 
+					savingEvent:true
+					}
+		case A.UPDATE_EVENT_FULFILLED:
+			return { 
+					...state, 
+					events:action.payload,
+					savingEvent:false
+					}
+		case A.UPDATE_EVENT_REJECTED:
+			return { 
+					...state, 
+					savingEvent:false
 					}
 		default: 
 	}
