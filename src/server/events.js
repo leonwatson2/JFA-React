@@ -39,17 +39,17 @@ module.exports = function(app, db){
 	})
 }
 
-{ 
-	_id: 59a58d4fa8c727fece8770ad,
-  type: string,
-  name: string,
-  description: string,
-  location: string,
-  start_time: Date.format('YYYY-MM-DD HH:mm:ss') i.e '2016-08-29 19:00:00',
-  end_time: Date.format('YYYY-MM-DD HH:mm:ss') i.e '2016-08-29 21:00:00',
-  number_of_checkins: number,
-  id: number,
-  creator: string,
-  date_created: '2016-09-11 22:32:24',
-  image_url: string 
-}
+// { 
+// 	_id: 59a58d4fa8c727fece8770ad,
+//   type: string,
+//   name: string,
+//   description: string,
+//   location: string,
+//   start_time: Date.format('YYYY-MM-DD HH:mm:ss') i.e '2016-08-29 19:00:00',
+//   end_time: Date.format('YYYY-MM-DD HH:mm:ss') i.e '2016-08-29 21:00:00',
+//   number_of_checkins: number,
+//   id: number,
+//   creator: string,
+//   date_created: Date.format('YYYY-MM-DD HH:mm:ss') '2016-09-11 22:32:24',
+//   image_url: string 
+// }
