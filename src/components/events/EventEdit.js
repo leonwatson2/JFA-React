@@ -1,59 +1,89 @@
 import React, { Component } from 'react';
 import moment from 'moment'
+import FAClose from 'react-icons/lib/fa/close'
+import { connect } from 'react-redux'
+
 export class EventEdit extends Component {
 	constructor(props) {
 	  super(props);
 	const { name, start_time, end_time, description, id, image_url, location, type } = props.event
-	  console.log(moment(start_time));
 	  this.state = {
 	  	id:id || null,
-	  	name:name || "",
+	  	newName:name || "",
 	  	day:moment(start_time).format('YYYY-MM-DD'), 
-	  	startTime:moment(start_time).format('HH:mm') || moment(),
-	  	endTime:moment(end_time).format('HH:mm') || moment(),
-	  	description:description || "",
-	  	location:location || "",
-	  	type: type || "",
-	  	imageUrl: image_url || ""
+	  	newStartTime:moment(start_time).format('HH:mm') || moment(),
+	  	newEndTime:moment(end_time).format('HH:mm') || moment(),
+	  	newDescription:description || "",
+	  	newLocation:location || "",
+	  	newType: type || "",
+	  	newImageUrl: image_url || null
 	  };
 	}
 	handleSubmit = (e)=> {
 		e.preventDefault()
-		const { name, day, startTime, endTime, description, id, imageUrl, location, type } = this.state
+		const { newName, 
+			day, 
+			newStartTime, 
+			newEndTime, 
+			newDescription, 
+			newImageUrl, 
+			newLocation, 
+			newType } = this.state
+		const { name, 
+				start_time, 
+				end_time, 
+				description, 
+				id, 
+				image_url, 
+				location, 
+				type } = this.props.event
 
-		const newEvent = {
-		  	id,
-		  	name,
-		  	startTime:moment(`${day} ${startTime}`, 'YYYY-MM-DD HH:mm').format(),
-		  	endTime:moment(`${day} ${endTime}`, 'YYYY-MM-DD HH:mm').format(),
-		  	description,
-		  	location,
-		  	type,
-		  	imageUrl
-		}
-		console.log(newEvent);
+		let newEvent = {id}
+
+		newEvent.name = this.isNewValue(name, newName)
+		newEvent.startTime = this.isNewValue(start_time, moment(`${day} ${newStartTime}`, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss'))
+		newEvent.endTime = this.isNewValue(end_time, moment(`${day} ${newEndTime}`, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss'))
+		newEvent.description = this.isNewValue(description, newDescription)
+		newEvent.imageUrl = this.isNewValue(image_url, newImageUrl)
+		newEvent.type = this.isNewValue(type, newType)
+		newEvent.location = this.isNewValue(location, newLocation)
+		newEvent = Object.keys(newEvent).reduce((newOb, key)=> {
+									if(newEvent[key] !== null){
+										 newOb[key] = newEvent[key]  
+									}
+									return newOb
+								}, {})
+		this.props.onSubmit(newEvent)
+	}
+
+	isNewValue(oldVal, newVal){
+		return (oldVal !== newVal) ? newVal : null
 	}
 	deleteEvent(){
 		console.log("Delete Event");
 	}
-	updateEventType(eventType){
-		console.log("Update to ", eventType);
+	updateEventType(newType){
+		this.setState({newType});
 	}
-	tryImageLoad = (e) => {
-		// console.log("tryImageLoad", e);
-	}
+	
 	updateImg = (e) => {
-		this.setState({imageUrl:e.target.value});
+		const reader = new FileReader()
+		const file = e.target.files[0]
+		reader.onloadend = (data)=>{
+			this.setState({
+				newImageUrl:reader.result
+			});
+		}
+		reader.readAsDataURL(file)
 	}
 	updateStartTime(value, isTime){
 		if(isTime){
-			console.log(value);
-			const { startTime, endTime } = this.state
-			let newEndTime = endTime
-			if(moment(startTime, 'HH:mm').isSameOrAfter(moment(endTime, 'HH:mm'))){
-				newEndTime = moment(startTime, 'HH:mm').add(1, 'hour').format('HH:mm')
+			const { newStartTime, newEndTime } = this.state
+			let updatedEndTime = newEndTime
+			if(moment(newStartTime, 'HH:mm').isSameOrAfter(moment(newEndTime, 'HH:mm'))){
+				updatedEndTime = moment(newStartTime, 'HH:mm').add(1, 'hour').format('HH:mm')
 			}
-			this.setState({startTime:value, endTime:newEndTime});
+			this.setState({newStartTime:value, newEndTime:updatedEndTime});
 		}else{
 			this.setState({day:value}); 
 		}
@@ -62,28 +92,31 @@ export class EventEdit extends Component {
 		console.log("location change", e.target);
 	}
 	render() {
+		const { closeEdit } = this.props
 		const { day, 
-				name, 
-				startTime, 
-				endTime, 
-				description, 
+				newName, 
+				newStartTime, 
+				newEndTime, 
+				newDescription, 
 				id, 
-				imageUrl, 
-				location, 
-				type } = this.state
+				newImageUrl, 
+				newLocation, 
+				newType } = this.state
 
-		const newImageUrl = "http://24.media.tumblr.com/tumblr_lyho2ghTM71qenqklo1_1280.jpg"
+		const editedImageUrl = newImageUrl || "http://24.media.tumblr.com/tumblr_lyho2ghTM71qenqklo1_1280.jpg"
 		return (
 		<div className="card event">
-
-			<form className="editing" onSubmit={this.handleSubmit}>
+			<button className="edit-button" onClick={ closeEdit } >
+	          <FAClose title="Edit Event" />
+	        </button>
+			<form className="edit-form" onSubmit={this.handleSubmit}>
 				<div className="title">
 					<h3>
 						<input 
 							type = "text" 
 							name = "name"
-							value = { name }
-							onChange = { e => { this.setState({name:e.target.value}); }} 
+							value = { newName }
+							onChange = { e => { this.setState({newName:e.target.value}); }} 
 						/>
 					</h3>
 					<button className="delete" onClick={this.deleteEvent} type="button">Delete</button>
@@ -99,8 +132,8 @@ export class EventEdit extends Component {
 									/>
 									<label tabIndex="0" 
 										htmlFor={`${eventType}-${id}`}
-										className={(eventType === type) && 'active'}
-										onClick={ e => { this.setState({eventType:e.target.value}); }}>
+										className={(eventType === newType) && 'active'}
+										onClick={ e => { this.updateEventType(eventType:e.target.value) }}>
 										<span>{eventType}</span>
 									</label>    
 								</div>
@@ -128,7 +161,7 @@ export class EventEdit extends Component {
 								<input 
 									type = "time" 
 									onChange = { (e)=>{ this.updateStartTime(e.target.value, true) } } 
-									value =  { startTime } 
+									value =  { newStartTime } 
 									name = "startTime"
 								/>
 							</div> 
@@ -136,8 +169,8 @@ export class EventEdit extends Component {
 							<div className = "end-time">
 								<input 
 									type = "time" 
-									onChange = { (e)=>{ this.setState({endTime:e.target.value})} } 
-									value = { endTime }
+									onChange = { (e)=>{ this.setState({newEndTime:e.target.value})} } 
+									value = { newEndTime }
 									name = "endTime"
 								/>
 							</div>
@@ -147,12 +180,12 @@ export class EventEdit extends Component {
 							<input 
 								type = "text" 
 								name = "location"
-								value = { location }
-								onChange = { e => { this.setState({location:e.target.value}); } }/>
+								value = { newLocation }
+								onChange = { e => { this.setState({newLocation:e.target.value}); } }/>
 						</div>
 					</div>
 					<div className = "photo">
-						<img onError = { this.tryImageLoad } src = { imageUrl } alt = "" />
+						<img src = { editedImageUrl } alt = "" />
 						<input 
 							type = "file" 
 							name = "the_file" 
@@ -169,8 +202,8 @@ export class EventEdit extends Component {
 					<textarea 
 						className = "description" 
 						name = "description" 
-						value = { description }
-						onChange = { e => { this.setState({description:e.target.value}); } }>
+						value = { newDescription }
+						onChange = { e => { this.setState({newDescription:e.target.value}); } }>
 					</textarea>
 				</div>
 				<div className = "footer"> 
@@ -179,7 +212,7 @@ export class EventEdit extends Component {
 						<span>Users Name</span>
 					</div>
 					<div className = "save">
-						<button name = "submit" type = "submit"> Save</button>
+						<input name = "submit" type = "submit" value="Save"/> 
 					</div> 
 				</div>
 			</form>
@@ -187,7 +220,11 @@ export class EventEdit extends Component {
 		);
 	}
 }
-export default EventEdit
+const mapStateToProps = state => ({
+	savingEvent:state.events.savingEvent
+})
+
+export default connect(mapStateToProps)(EventEdit)
 const eventTypes = [
 				"Fire Night",
 				"Meeting",

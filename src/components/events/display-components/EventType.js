@@ -3,7 +3,7 @@ import React from 'react';
 export const EventType = ({type})=>{
 	const eventType = EventTypes[type]
 	return (
-		<span className="type">{ eventType }</span>
+		<span className="type">{ eventType || type}</span>
 	);
 	
 }

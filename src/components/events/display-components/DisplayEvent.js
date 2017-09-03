@@ -2,13 +2,17 @@ import React, { Component } from 'react';
 import { EventType } from './EventType'
 import { EventDateTime } from './EventDateTime'
 import { EventLocation } from './EventLocation'
+import FAEdit from 'react-icons/lib/fa/edit'
 
 export class DisplayEvent extends Component {
 	render() {
 
-		const { event } = this.props 
+		const { event, openEdit } = this.props 
 		return (
 		<div className="card event">
+			<button className="edit-button" onClick={ openEdit } >
+	          <FAEdit title="Edit Event" />
+	        </button>
 			<div className="title">
 				<h3>{event.name}</h3>
 				<EventType type={event.type}></EventType>

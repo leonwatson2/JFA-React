@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Event } from './Event'
+import Event from './Event'
 import { connect } from 'react-redux'
 import { getEvents } from '../../store/actions/eventActions'
 
