@@ -27,3 +27,5 @@ yarn-error.log*
 /public/assets
 
 public/manifest.json
+
+.env
