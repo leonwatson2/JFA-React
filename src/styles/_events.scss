@@ -113,24 +113,28 @@ jfa-event-group{
     left:-100%;
   }
 }
-
+.edit-form{
+  width: 100%;
+}
 
 .edit-button{
   perspective:600px;
   border:none;
   min-width: auto;
   height: auto;
+  left:10px;
+  top:0px;
+  font-size: 2em;
+  position:absolute;
+  transition:transform .75s;
+  // transform:rotateY(-180deg);
+  transform-style:perserve-3d;
+  backface-visibility:hidden;
   
-  i{
-    position:absolute;
-      transition:transform .75s;
-      transform:rotateY(-180deg);
-      transform-style:perserve-3d;
-      backface-visibility:hidden;
-    &.show{
-      transform:rotateY(0deg);
-    }
+  &.show{
+    transform:rotateY(0deg);
   }
+
 }
 .notify{
   transition:all .75s;
