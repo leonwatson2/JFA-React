@@ -1,35 +1,30 @@
 
 let express = require("express");
+let router = require("express").Router();
 let bodyParser = require("body-parser");
-let mongodb = require("mongodb")
+let mongoose = require("mongoose")
 let app = express()
-
+let port = process.env.PORT || 3001
 app.use(bodyParser.json());
-let eventRoutes = require('./events')
-let db
-
 
 module.exports.handleError = function handleError(res, reason, message, code) {
-	  console.log("ERROR: " + reason);
-	  res.status(code || 500).json({"error": message});
-	}
-mongodb.MongoClient.connect("mongodb://localhost:27017/jfa", (err, database)=>{
+	console.log("ERROR: " + reason);
+	res.status(code || 500).json({"error": message});
+}
 
-	if(err){
-		console.log(err)
-		process.exit(0)
-	}
+mongoose.connect("mongodb://localhost:27017/jfa_test")
 
-	db = database
-	console.log("Connected to DB");
-
-	let server = app.listen(3001, ()=>{
-		
-		console.log("Port:", server.address().port)
-		eventRoutes(app, db)
-	})
-	
-
-
+router.use('/members', require('./routes/members'))
+router.use('/events', require('./routes/events'))
+app.get('/', (req, res)=>{
+	res.status(200).json({status:"online"})
 })
+app.use('/api',router)
+
+
+app.listen(port, ()=>{
+		console.log("Port:", port)
+})
+
+
 
