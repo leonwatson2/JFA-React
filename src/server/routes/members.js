@@ -9,7 +9,7 @@ const EventModel = require('../models/events').model
      Get member by email
     * POST: 
       /api/members/:memberId/:eventId
-        adds the memberid to the event members
+        adds the memberid to the event checkins
       /api/members/new/:eventId
         adds new member to databse and to event members
     * PUT: updates a members value in the database

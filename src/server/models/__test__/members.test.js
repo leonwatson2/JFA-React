@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const MemberModel = require('../members').model
 
 describe('Member Model Add Tests', ()=>{
-    const fakemMember = {
+    const fakeMember = {
         _id:new mongoose.Types.ObjectId(2323),
         name:"Mike",
         email:"jim@vlw2.com",
@@ -21,10 +21,10 @@ describe('Member Model Add Tests', ()=>{
     })
     
     it('should add a member to the database', async ()=>{
-        const newMember  = new MemberModel(fakemMember)
+        const newMember  = new MemberModel(fakeMember)
         await newMember.save()
         const members = await MemberModel.findOne({})
-        expect(members._id).toEqual(fakemMember._id)
+        expect(members._id).toEqual(fakeMember._id)
     })
     
 })
