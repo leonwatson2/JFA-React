@@ -1,6 +1,9 @@
 const router = require('express').Router()
 const handleError = require('../index').handleError
 const UserModel = require('../models/users.js').model	
+const jwt = require('jsonwebtoken')
+const config = require('../../../config.js')
+
 	/* /api/users
 	* GET: get users without email and password
     * POST: add an user to the database
@@ -39,11 +42,29 @@ const UserModel = require('../models/users.js').model
     })
 
     router.post('/login', (req, res)=>{
-        res.status(200).json({ path:req.originalUrl })
+        const { user } = req.body
+        if(user){
+            const { email, password } = user
+            if(email && password){
+                UserModel.findOne({ email, password }, (err, doc)=>{
+                    if(err || doc === null){
+                        handleError(res, "Incorrect Email/Password", "Incorrect Email/Password")
+                    }else{   
+                        const token = jwt.sign({user}, config.dbsecret)
+                        res.status(200).json({token})
+                    }
+                })
+            }else{
+                handleError(res, "Email/Password not provided.", "Email/Password not provided.", 400)  
+            }
+        }else{
+            handleError(res, "No User provided.", "No User Provided.", 400)
+
+        }
     })
 
 	router.put('/', (req, res)=>{
-        res.status(200).json({path:req.originalUrl})
+        res.status(200).json({ path:req.originalUrl })
     })
 
 	router.delete('/:id', (req, res)=>{
