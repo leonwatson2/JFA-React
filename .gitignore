@@ -29,3 +29,4 @@ yarn-error.log*
 public/manifest.json
 
 .env
+config.js
