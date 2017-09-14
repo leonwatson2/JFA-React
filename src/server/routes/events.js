@@ -16,7 +16,7 @@ const responses = require('./utils.js').responses
 
 router.get('/', (req, res)=>{
 	EventModel.find({}).exec((err, docs)=>{
-			res.status(200).json({docs})
+			res.status(responses.OK).json({docs})
 	})
 })
 
@@ -73,10 +73,10 @@ function validToken(req, res, next){
 		req.token = token
 		jwt.verify(token, config.dbsecret, (err, data)=>{
 			if(err)
-				handleError(res, "Invalid Token", "Invalid Token")
+				handleError(res, "Invalid Token", "Invalid Token", responses.FORBIDDEN)
 			next()
 		})
 	}else {
-		handleError(res, "No Auth token supplied", "No Auth token supplied")
+		handleError(res, "No Auth token supplied.", "No Auth token supplied. i.e. Bearer {token}", responses.BAD_REQUEST)
 	}
 }
