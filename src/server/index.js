@@ -16,6 +16,7 @@ mongoose.connect("mongodb://localhost:27017/jfa_test")
 
 router.use('/members', require('./routes/members'))
 router.use('/events', require('./routes/events'))
+router.use('/users', require('./routes/users'))
 app.get('/', (req, res)=>{
 	res.status(200).json({status:"online"})
 })

@@ -1,4 +1,4 @@
-import data from '../../data/events.json';
+// import data from '../../data/events.json';
 import { createPromiseActionsFor } from './utils';
 
 const addEventActionTypes = createPromiseActionsFor("ADD_EVENT")
