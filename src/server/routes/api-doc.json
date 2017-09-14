@@ -1,0 +1,18 @@
+[{
+    "events":{
+        "path":"/api/events/",
+        "endpoints":[{
+            "method":"GET",
+            "endpoint":"/api/events/",
+            "returns":"Events"
+        },{
+            "method":"GET",
+            "endpoint":"/api/events/{id}",
+            "returns":"Event"
+        },{
+            "method":"POST",
+            "endpoint":"/api/events/",
+            "returns":""
+        }]
+    }
+}]
