@@ -1,11 +1,26 @@
 const mongoose = require('mongoose')
 const EventModel = require('../events').model
+const { dburi } = require('./test-config')
+const fakeEvent = { 
+	_id:new mongoose.Types.ObjectId(2323),
+	type: "Flow Meeting",
+	name: "Cool Event",
+	description: "This is an event description",
+	location: "Here's a location",
+	start_time: new Date(Date.now() + 60 * 60 * 1000), //i.e '2016-08-29 19:00:00',
+	end_time: new Date(Date.now() + 2 * 60 * 60 * 1000), //i.e '2016-08-29 21:00:00',
+	checkIns: [23, 12, 99, 10],
+	id: 23,
+	creator: "Leon Watson",
+	date_created: new Date(Date.now()), //'2016-09-11 22:32:24',
+	image_url: "Fake_Image_url.png" 
+}
 
 describe('Event Model Empty Test', ()=>{
 
 	beforeAll(()=>{
 		EventModel.remove({}).exec()
-		mongoose.connect("mongodb://localhost:27017/jfa_test")
+		mongoose.connect(dburi)
 	})
 	afterEach(()=>{
 		EventModel.remove({}).exec()
@@ -61,22 +76,18 @@ describe('Adding events to collection', ()=>{
 		expect(res.length).toEqual(2)
 	})
 
+	it('should save an event with a description like fake event', async ()=>{
+		await new EventModel(fakeEvent).save()
+		const event = await EventModel.findOne({description:fakeEvent.description}, 
+													{ description:true, start_time:true, end_time:true })
+		console.log(event);
+															
+		expect(event.description).toEqual(fakeEvent.description)
+	})
+
 })
 
-const fakeEvent = { 
-	_id:new mongoose.Types.ObjectId(2323),
-	type: "Flow Meeting",
-	name: "Cool Event",
-	description: "This is an event description",
-	location: "Here's a location",
-	start_time: new Date(Date.now() + 60 * 60 * 1000), //i.e '2016-08-29 19:00:00',
-	end_time: new Date(Date.now() + 2 * 60 * 60 * 1000), //i.e '2016-08-29 21:00:00',
-	checkIns: [23, 12, 99, 10],
-	id: 23,
-	creator: "Leon Watson",
-	date_created: new Date(Date.now()), //'2016-09-11 22:32:24',
-	image_url: "Fake_Image_url.png" 
-}
+
 
 describe('modifying events', ()=>{
 	
