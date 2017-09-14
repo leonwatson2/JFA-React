@@ -13,16 +13,26 @@ const UserModel = require('../models/users.js').model
 	router.get('/', (req, res)=>{
         UserModel.find({}).then((docs)=>{
             res.status(200).json({ users:docs })
-
         })
 	})
 
 	router.post('/', (req, res)=>{
         const { user } = req.body
         if(user){
-            const newUser = new UserModel(user) 
-            newUser.save()
-            res.status(200).json({ path:req.originalUrl })
+
+            const newUser = {
+                name:user.name.trim(),
+                email:user.email.trim(),
+                position:user.position.trim(),
+                password:user.password.trim()
+            }
+            new UserModel(newUser).save((err)=>{
+                if(err){
+                    handleError(res, "Email already exist.", err.errors.email.message)
+                }else{
+                    res.status(200).json({ message:"User Added" })
+                }
+            })
         }else{
             handleError(res, "No user in body.", "That doesn't quite work that way", 400)
         }
@@ -38,9 +48,8 @@ const UserModel = require('../models/users.js').model
 
 	router.delete('/:id', (req, res)=>{
 		const { id } = req.params
-		console.log(handleError);
 		
-		UserModel.deleteOne({_id:id}, (err, result)=>{
+		UserModel.remove({_id:id}, (err, result)=>{
 				if(err){
 					handleError(res, err, "Something went wrong deleting that.")
 				}else{
