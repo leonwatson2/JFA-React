@@ -5,6 +5,7 @@ let bodyParser = require("body-parser");
 let mongoose = require("mongoose")
 let app = express()
 let port = process.env.PORT || 3001
+let config = require("../../config")
 
 mongoose.Promise = global.Promise;
 
@@ -15,11 +16,12 @@ module.exports.handleError = function handleError(res, reason, message, code) {
 	res.status(code || 500).json({"error": message});
 }
 
-mongoose.connect("mongodb://localhost:27017/jfa_test", {useMongoClient:true})
+mongoose.connect(config.dburi, {useMongoClient:true})
 
 router.use('/members', require('./routes/members'))
 router.use('/events', require('./routes/events'))
 router.use('/users', require('./routes/users'))
+
 app.get('/', (req, res)=>{
 	res.status(200).json({status:"online"})
 })
