@@ -3,12 +3,25 @@ const EventModel = require("./events").Model
 
 const memberSchema = mongoose.Schema({
     "name": String,
-    "email": String,
-    "studentId": String,
+    "email": {
+        type:String,
+        validate:{
+            isAsync:true,
+            validator:function(email, callback){
+                memberModel.find({email:email}, (err, doc)=>{
+                    callback(doc.length === 0)
+                    
+                })
+            },
+            message:"Email already in use.",
+            required:true
+        }
+    },
+    "studentId": { type:String, default:"" },
     "hasPaid": { type:Boolean, default:false },
-    "shirtSize": String,
+    "shirtSize": { type:String, default:"" },
     "dateJoined": { type:Date, default:Date.now },
-    "numberOfCheckins": Number,
+    "numberOfCheckins": { type:Number, default:0 },
     "lastCheckIn": Date
 }, { versionKey:false })
 
