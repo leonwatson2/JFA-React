@@ -16,7 +16,9 @@ module.exports.handleError = function handleError(res, reason, message, code) {
 	res.status(code || 500).json({"error": message});
 }
 
-mongoose.connect(config.dburi, {useMongoClient:true})
+mongoose.connect(config.dburi, {useMongoClient:true}).catch((err)=>{
+	console.log('Database Connection Error');	
+})
 
 router.use('/members', require('./routes/members'))
 router.use('/events', require('./routes/events'))
