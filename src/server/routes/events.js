@@ -3,12 +3,14 @@ const handleError = require('../index').handleError
 const EventModel = require('../models/events').model
 const jwt = require('jsonwebtoken')
 const config = require('../../../config.js')
-const responses = require('./utils.js').responses
+const { responses, hasParams } = require('./utils.js')
+const MemberModel = require('../models/members').model
 
 /* /api/events
 * GET: get all the events
 * /api/events/:id get event by id
 * POST: add an event to the database
+* /api/event/:eventId/members/:memberId adds memberId to checkins of event
 * PUT: update an event in the database
 * DELETE: delete an event from the database
 * /api/events/:id delete events with ids
@@ -16,9 +18,36 @@ const responses = require('./utils.js').responses
 
 router.get('/', (req, res)=>{
 	EventModel.find({}).exec((err, docs)=>{
+		if(err)
+			handleError(res, err, "Database error.", responses.SERVER_ERROR)
+		else
 			res.status(responses.OK).json({docs})
 	})
 })
+
+router.post('/:eventId/members/:memberId', hasParams(['memberId', 'eventId']), (req, res)=>{
+	const { memberId, eventId } = req.params
+	EventModel.count({ _id: eventId } , (err, count)=>{
+	  
+	  if(err){
+		handleError(res, "DB error", err.message, responses.BAD_REQUEST)
+	  }else if(count <= 0){
+		handleError(res, "Event not found.", "Event not found", responses.BAD_REQUEST)
+	  }else{
+		
+		MemberModel.findOne({_id:memberId}, (err, member)=>{
+		  if(err){
+			handleError(res, "DB error", err.message, responses.BAD_REQUEST)
+		  }else{
+			EventModel.addCheckIn(eventId, memberId, (err, result)=>{
+				res.status(responses.OK).json({count, member})
+			})
+		  }
+		})
+	  } 
+	})
+  })
+  
 
 router.post('/', validToken, (req, res)=>{
 	const { event } = req.body
@@ -55,7 +84,6 @@ router.put('/', (req, res)=>{
 
 router.delete('/:id', (req, res)=>{
 	const { id } = req.params
-	console.log(handleError);
 	
 	EventModel.deleteOne({_id:id}, (err, result)=>{
 			if(err){
