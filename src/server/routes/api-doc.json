@@ -2,28 +2,35 @@
     "events":{
         "path":"/api/events/",
         "endpoints":[{
-            "method":"GET",
-            "endpoint":"/api/events/",
-            "returns":"Events"
-        },{
-            "method":"GET",
-            "endpoint":"/api/events/{id}",
-            "params":[{"name":"id", "value":"The id of the event."}],
-            "returns":"Event"
-        },{
-            "method":"POST",
-            "endpoint":"/api/events/",
-            "body":"Event",
-            "returns":"Event"
-        },{
-            "method":"PUT",
-            "endpoint":"/api/events/",
-            "body":"Event Partial"
-        },{
-            "method":"DELETE",
-            "endpoint":"/api/events/{id}",
-            "params":[{"name":"id", "value":"The id of the event to be deleted."}]
-        }
-    ]
+                "method":"GET",
+                "endpoint":"/api/events/",
+                "returns":"Events"
+            },{
+                "method":"GET",
+                "endpoint":"/api/events/{id}",
+                "params":[{"name":"id", "value":"The id of the event."}],
+                "returns":"Event"
+            },{
+                "method":"POST",
+                "endpoint":"/api/events/",
+                "body":"Event",
+                "returns":"Event"
+            },{
+                "method":"POST",
+                "endpoint":"/api/events/:eventId/members/:memberId",
+                "params":[
+                    {"name":"eventId", "value":"Event to be updated."}, 
+                    {"name":"memberId", "value":"The id to be added to checkIns array"}
+                ]    
+            },{
+                "method":"PUT",
+                "endpoint":"/api/events/",
+                "body":"Event Partial"
+            },{
+                "method":"DELETE",
+                "endpoint":"/api/events/{id}",
+                "params":[{"name":"id", "value":"The id of the event to be deleted."}]
+            }
+        ]
     }
 }]
