@@ -3,20 +3,19 @@ import moment from 'moment'
 import FAClose from 'react-icons/lib/fa/close'
 import { connect } from 'react-redux'
 
-export class EventEdit extends Component {
+export class AddEvent extends Component {
 	constructor(props) {
 	  super(props);
-	const { name, start_time, end_time, description, _id, image_url, location, type } = props.event
 	this.state = {
-	  	id:_id || null,
-	  	newName:name || "",
-	  	day:moment(start_time).format('YYYY-MM-DD'), 
-	  	newStartTime:moment(start_time).format('HH:mm') || moment(),
-	  	newEndTime:moment(end_time).format('HH:mm') || moment(),
-	  	newDescription:description || "",
-	  	newLocation:location || "",
-	  	newType: type || "",
-	  	newImageUrl: image_url || null
+	  	id:null,
+	  	newName:"",
+	  	day:moment().format('YYYY-MM-DD'), 
+	  	newStartTime:moment().format('HH:mm'),
+	  	newEndTime:moment().add(1, 'h').format('HH:mm'),
+	  	newDescription:"",
+	  	newLocation:"",
+	  	newType: "",
+	  	newImageUrl: null
 	  };
 	}
 	handleSubmit = (e)=> {
@@ -29,39 +28,21 @@ export class EventEdit extends Component {
 			newImageUrl, 
 			newLocation, 
 			newType } = this.state
-		const { name, 
-				start_time, 
-				end_time, 
-				description, 
-				_id,
-				image_url, 
-				location, 
-				type } = this.props.event
 
-		let newEvent = {_id}
 
-		newEvent.name = this.isNewValue(name, newName)
-		newEvent.startTime = this.isNewValue(start_time, moment(`${day} ${newStartTime}`, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss'))
-		newEvent.endTime = this.isNewValue(end_time, moment(`${day} ${newEndTime}`, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss'))
-		newEvent.description = this.isNewValue(description, newDescription)
-		newEvent.imageUrl = this.isNewValue(image_url, newImageUrl)
-		newEvent.type = this.isNewValue(type, newType)
-		newEvent.location = this.isNewValue(location, newLocation)
-		newEvent = Object.keys(newEvent).reduce((newOb, key)=> {
-									if(newEvent[key] !== null){
-										 newOb[key] = newEvent[key]  
-									}
-									return newOb
-								}, {})
-		this.props.onSubmit(newEvent)
+		let newEvent = {}
+
+		newEvent.name = newName
+		newEvent.startTime = moment(`${day} ${newStartTime}`, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss')
+		newEvent.endTime = moment(`${day} ${newEndTime}`, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss')
+		newEvent.description = newDescription
+		newEvent.imageUrl = newImageUrl
+		newEvent.type = newType
+		newEvent.location = newLocation
+		
+		this.props.addEvent(newEvent)
 	}
 
-	isNewValue(oldVal, newVal){
-		return (oldVal !== newVal) ? newVal : null
-	}
-	deleteEvent(){
-		console.log("Delete Event");
-	}
 	updateEventType(newType){
 		this.setState({newType});
 	}
@@ -81,7 +62,7 @@ export class EventEdit extends Component {
 			const { newStartTime, newEndTime } = this.state
 			let updatedEndTime = newEndTime
 			if(moment(value, 'HH:mm').isSameOrAfter(moment(newEndTime, 'HH:mm'))){
-				updatedEndTime = moment(newStartTime, 'HH:mm').add(2, 'hour').format('HH:mm')
+				updatedEndTime = moment(newStartTime, 'HH:mm').add(2, 'h').format('HH:mm')
 			}
 			this.setState({newStartTime:value, newEndTime:updatedEndTime});
 		}else{
@@ -90,7 +71,7 @@ export class EventEdit extends Component {
 	}
 
 	render() {
-		const { closeEdit } = this.props
+		const { cancelAddEvent } = this.props
 		const { day, 
 				newName, 
 				newStartTime, 
@@ -104,20 +85,21 @@ export class EventEdit extends Component {
 		const editedImageUrl = newImageUrl || "http://24.media.tumblr.com/tumblr_lyho2ghTM71qenqklo1_1280.jpg"
 		return (
 		<div className="card event">
-			<button className="edit-button" onClick={ closeEdit } title="Cancel Edit Event">
-	          <FAClose  />
+			<button className="edit-button" onClick={ cancelAddEvent } title="Cancel" >
+	          <FAClose />
 	        </button>
 			<form className="edit-form" onSubmit={this.handleSubmit}>
 				<div className="title">
 					<h3>
 						<input 
+							autoFocus
 							type = "text" 
 							name = "name"
+							placeholder = "Cool event name"
 							value = { newName }
 							onChange = { e => { this.setState({newName:e.target.value}); }} 
 						/>
 					</h3>
-					<button className="delete" onClick={this.deleteEvent} type="button">Delete</button>
 				</div>
 				<div className="event-types radio-group">
 						{
@@ -178,6 +160,7 @@ export class EventEdit extends Component {
 							<input 
 								type = "text" 
 								name = "location"
+								placeholder = "Location"
 								value = { newLocation }
 								onChange = { e => { this.setState({newLocation:e.target.value}); } }/>
 						</div>
@@ -221,8 +204,12 @@ export class EventEdit extends Component {
 const mapStateToProps = state => ({
 	savingEvent:state.events.savingEvent
 })
+const mapdispatchToProps = dispatch => ({
+	cancelAddEvent:()=>{ console.log("Cancel Add event")},
+	addEvent:event=>{ console.log("Add Event", event)}
+})
 
-export default connect(mapStateToProps)(EventEdit)
+export default connect(mapStateToProps, mapdispatchToProps)(AddEvent)
 const eventTypes = [
 				"Fire Night",
 				"Meeting",
