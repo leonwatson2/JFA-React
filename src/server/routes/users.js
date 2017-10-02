@@ -46,12 +46,12 @@ const config = require('../../../config.js')
         if(user){
             const { email, password } = user
             if(email && password){
-                UserModel.findOne({ email, password }, (err, doc)=>{
+                UserModel.findOne({ email, password },{ name:true, position:true }, (err, doc)=>{
                     if(err || doc === null){
                         handleError(res, "Incorrect Email/Password", "Incorrect Email/Password")
                     }else{   
                         const token = jwt.sign({user}, config.dbsecret)
-                        res.status(200).json({token, user})
+                        res.status(200).json({token, doc})
                     }
                 })
             }else{
