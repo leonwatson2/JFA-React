@@ -14,14 +14,13 @@ class EventsComponent extends Component {
 	}
 	render() {
 		const { events, fetching } = this.props
-		
-		if(events.length === 0) return <h2>{fetching && 'Loading '}Events</h2>
+		if(events.length === 0) return <h2>{fetching ? 'Loading ': 'No '}Events</h2>
 
 		return (
 			<div className="main">
 				
 				{
-					events.map(event => (<Event key={event.id} event={event} />))
+					events.map(event => (<Event key={event._id} event={event} />))
 				}
 			</div>
 		);

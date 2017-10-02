@@ -21,7 +21,7 @@ router.get('/', (req, res)=>{
 		if(err)
 			handleError(res, err, "Database error.", responses.SERVER_ERROR)
 		else
-			res.status(responses.OK).json({docs})
+			res.status(responses.OK).json(docs)
 	})
 })
 
@@ -66,11 +66,11 @@ router.put('/', (req, res)=>{
 		const { _id } = event
 		if(_id){
 			delete event._id
-			EventModel.update({ _id }, event, (err, result)=>{
+			EventModel.findOneAndUpdate({ _id }, event, {new:true}, (err, result)=>{
 				if(err){
 					handleError(res, err, "Updating the event didn't work!", responses.SERVER_ERROR)
 				}else{
-					res.sendStatus(204)
+					res.status(responses.OK).json(result)
 				}
 			} )
 		}else{

@@ -26,7 +26,20 @@ export const addEvent = (event)=>({
 const headers = {
                 "Content-Type": "application/json"
             }
-export const updateEvent = (newEvent)=>({
-	type:eventActionTypes.UPDATE_EVENT,
-	payload: fetch("/api/events", { headers:headers, method:"PUT", body:JSON.stringify({event:newEvent}) }).then(res => res.json())
-})
+export const updateEvent = (newEvent)=>{
+	const init = { 
+		headers:headers, 
+		method:"PUT", 
+		body:JSON.stringify({event:newEvent}) 
+	}
+	return {
+		type:eventActionTypes.UPDATE_EVENT,
+		payload: fetch("/api/events", init)
+					.then(res => {
+						return res.json()
+					})
+					.then(event=>event)
+					.catch(err=>{
+					})
+	}
+}

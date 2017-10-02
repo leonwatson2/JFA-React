@@ -49,9 +49,15 @@ export const eventsReducer = (state = initialState, action) => {
 					savingEvent:true
 					}
 		case A.UPDATE_EVENT_FULFILLED:
+			let events = state.events.map((e)=>{
+				if(e._id === action.payload._id){
+					return action.payload
+				}
+				return e
+			})
 			return { 
 					...state, 
-					events:action.payload,
+					events,
 					savingEvent:false
 					}
 		case A.UPDATE_EVENT_REJECTED:

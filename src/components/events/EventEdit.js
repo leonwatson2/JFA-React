@@ -6,9 +6,9 @@ import { connect } from 'react-redux'
 export class EventEdit extends Component {
 	constructor(props) {
 	  super(props);
-	const { name, start_time, end_time, description, id, image_url, location, type } = props.event
-	  this.state = {
-	  	id:id || null,
+	const { name, start_time, end_time, description, _id, image_url, location, type } = props.event
+	this.state = {
+	  	id:_id || null,
 	  	newName:name || "",
 	  	day:moment(start_time).format('YYYY-MM-DD'), 
 	  	newStartTime:moment(start_time).format('HH:mm') || moment(),
@@ -33,12 +33,12 @@ export class EventEdit extends Component {
 				start_time, 
 				end_time, 
 				description, 
-				id, 
+				_id,
 				image_url, 
 				location, 
 				type } = this.props.event
 
-		let newEvent = {id}
+		let newEvent = {_id}
 
 		newEvent.name = this.isNewValue(name, newName)
 		newEvent.startTime = this.isNewValue(start_time, moment(`${day} ${newStartTime}`, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss'))
