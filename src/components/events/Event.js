@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import { DisplayEvent } from './display-components/DisplayEvent'
+import DisplayEvent from './display-components/DisplayEvent'
 import { EventEdit } from './EventEdit'
 import { updateEvent } from '../../store/actions/eventActions'
 

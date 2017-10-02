@@ -16,6 +16,7 @@ export class Navigation extends Component {
 		this.closeNav()
 	}
 	render() {
+		const { loggedIn } = this.props
 		return (
 		<div className="nav-container">
 			<Link to="/" className="logo">
@@ -25,7 +26,9 @@ export class Navigation extends Component {
 			<label className="nav-trigger" htmlFor="nav-toggle"><span></span></label>
 			<ul className="nav">
 				{
-					routeConfig.map(({path, title})=>(
+					routeConfig.filter(({admin})=>{
+						return (admin === undefined || admin === loggedIn)
+					}).map(({path, title})=>(
 						<NavLink exact 
 							key={path} 
 							to={path}
@@ -34,15 +37,17 @@ export class Navigation extends Component {
 						</NavLink>
 					))
 				}
-				<a onClick={this.logout}><li>Logout</li></a>
+				{
+				loggedIn && <a onClick={this.logout}><li>Logout</li></a>
+				}
 			</ul>
 
 		</div>
 		);
 	}
 }
-const mapStateToProps = () => ({
-
+const mapStateToProps = state => ({
+	loggedIn:state.users.loggedIn
 })
 const mapDispatchToProps = dispatch =>({
 	logout:bindActionCreators(logoutUser, dispatch)

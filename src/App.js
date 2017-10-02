@@ -80,6 +80,7 @@ export const routeConfig = [
 			{
 				path:'/dashboard/',
 				component:OfficerDashboard,
-				title:"Dashboard"
+				title:"Dashboard",
+				admin:true
 			}
 		]

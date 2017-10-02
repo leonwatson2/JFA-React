@@ -3,16 +3,20 @@ import { EventType } from './EventType'
 import { EventDateTime } from './EventDateTime'
 import { EventLocation } from './EventLocation'
 import FAEdit from 'react-icons/lib/fa/edit'
+import { connect } from 'react-redux'
 
 export class DisplayEvent extends Component {
 	render() {
 
-		const { event, openEdit } = this.props 
+		const { event, openEdit, loggedIn } = this.props 
 		return (
 		<div className="card event">
+			{
+				loggedIn &&
 			<button className="edit-button" onClick={ openEdit } >
 	          <FAEdit title="Edit Event" />
 	        </button>
+			}
 			<div className="title">
 				<h3>{event.name}</h3>
 				<EventType type={event.type}></EventType>
@@ -39,3 +43,7 @@ export class DisplayEvent extends Component {
 		);
 	}
 }
+const mapStateToProps = state => ({
+	loggedIn:state.users.loggedIn
+})
+export default connect(mapStateToProps)(DisplayEvent)
