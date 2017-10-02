@@ -2,7 +2,9 @@ import { eventActionTypes as A } from './actions/eventActions'
 export const initialState = { 
 							events:[], 
 							fetching:false, 
-							savingEvent:false 
+							savingEvent:false,
+							creatingEvent:false
+
 							}
 
 
@@ -65,6 +67,16 @@ export const eventsReducer = (state = initialState, action) => {
 					...state, 
 					savingEvent:false
 					}
+		case A.CREATE_EVENT:
+			return {
+				...state,
+				creatingEvent:true
+			}
+		case A.CANCEL_CREATE_EVENT:
+			return {
+				...state,
+				creatingEvent:false
+			}
 		default: 
 	}
 	return state

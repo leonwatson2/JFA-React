@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import moment from 'moment'
 import FAClose from 'react-icons/lib/fa/close'
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { addEvent, cancelCreateEvent } from '../../store/actions/eventActions'
 
 export class AddEvent extends Component {
 	constructor(props) {
@@ -205,7 +207,7 @@ const mapStateToProps = state => ({
 	savingEvent:state.events.savingEvent
 })
 const mapdispatchToProps = dispatch => ({
-	cancelAddEvent:()=>{ console.log("Cancel Add event")},
+	cancelAddEvent:bindActionCreators(cancelCreateEvent, dispatch),
 	addEvent:event=>{ console.log("Add Event", event)}
 })
 

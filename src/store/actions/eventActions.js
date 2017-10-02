@@ -9,6 +9,8 @@ export const eventActionTypes = {
 	...addEventActionTypes,
 	...getEventActionTypes,
 	...updateEventActionTypes,
+	CREATE_EVENT:"CREATE_EVENT",
+	CANCEL_CREATE_EVENT:"CANCEL_CREATE_EVENT"
 }
 
 export const getEvents = ()=>{
@@ -43,3 +45,11 @@ export const updateEvent = (newEvent)=>{
 					})
 	}
 }
+
+export const createEvent = ()=>({
+	type:eventActionTypes.CREATE_EVENT
+})
+
+export const cancelCreateEvent = ()=>({
+	type:eventActionTypes.CANCEL_CREATE_EVENT
+})
