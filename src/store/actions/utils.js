@@ -6,3 +6,4 @@ export const createPromiseActionsFor = (ACTION) => {
 		[`${ACTION}_REJECTED`]:`${ACTION}_REJECTED`
 	}
 }
+export const apiEndpoint = '/api'
