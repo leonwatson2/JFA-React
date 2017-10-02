@@ -51,7 +51,7 @@ const config = require('../../../config.js')
                         handleError(res, "Incorrect Email/Password", "Incorrect Email/Password")
                     }else{   
                         const token = jwt.sign({user}, config.dbsecret)
-                        res.status(200).json({token})
+                        res.status(200).json({token, user})
                     }
                 })
             }else{
