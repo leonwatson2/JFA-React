@@ -7,3 +7,7 @@ export const createPromiseActionsFor = (ACTION) => {
 	}
 }
 export const apiEndpoint = '/api'
+
+export const userStorageKey = 'jfa_user'
+export const tokenStorageKey = '$$jfaToken'
+

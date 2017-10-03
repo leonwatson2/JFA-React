@@ -1,4 +1,4 @@
-import { createPromiseActionsFor, apiEndpoint } from './utils';
+import { createPromiseActionsFor, apiEndpoint, userStorageKey, tokenStorageKey } from './utils';
 
 
 export const userActionTypes = {
@@ -29,17 +29,24 @@ export const authenticateUser = (email, password)=>{
 						throw new Error("Uh oh something went wrong. Let someone know!")
 					return response.json()		
 				}).then(res=>{
-					console.log(res)
 					if(res.error)
 						throw new Error( res.error)
-					else return {user:res.user}
+					else {
+						localStorage.setItem(userStorageKey, JSON.stringify(res.user))
+						localStorage.setItem(tokenStorageKey, JSON.stringify(res.token))
+						return { user:res.user }
+					}
 				}).catch(err =>{
-					console.log(err)
 					return Promise.reject({error:err.message})
 				})
 	}
 }
 
 export const logoutUser = () => ({
-	type:userActionTypes.LOGOUT
+	type:userActionTypes.LOGOUT,
+	payload:()=>{
+		localStorage.removeItem(userStorageKey)
+		localStorage.removeItem(tokenStorageKey)
+		return { }
+	}
 })
