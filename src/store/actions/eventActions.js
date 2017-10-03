@@ -25,6 +25,17 @@ export const addEvent = (event)=>({
 	payload: fetch("/api/events", { method:"POST" }).then(res => res.json())
 	
 })
+export const deleteEvent = (event)=>({
+	type:eventActionTypes.DELETE_EVENT,
+	payload: fetch(`/api/events/${event._id}`, {method:"DELETE"})
+			.then(res=>{
+				if(res.status === 204)
+					return {status:"ok"}
+				else{
+					return {error:"Something went wron when deleting. Try Again Later"}
+				}
+			})
+})
 const headers = {
                 "Content-Type": "application/json"
             }
