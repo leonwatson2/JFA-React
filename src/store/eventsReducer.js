@@ -3,8 +3,8 @@ export const initialState = {
 							events:[], 
 							fetching:false, 
 							savingEvent:false,
-							creatingEvent:false
-
+							creatingEvent:false,
+							error:""
 							}
 
 
@@ -31,19 +31,38 @@ export const eventsReducer = (state = initialState, action) => {
 		case A.ADD_EVENT_PENDING:
 			return { 
 					...state, 
-					savingEvent:true
+					savingEvent:true,
+					error:""
 					}
 		case A.ADD_EVENT_FULFILLED:
 			return { 
 					...state, 
 					events:action.payload,
-					savingEvent:false
-
+					savingEvent:false,
+					error:""
 					}
 		case A.ADD_EVENT_REJECTED:
 			return { 
 					...state, 
 					savingEvent:false
+					}
+		case A.DELETE_EVENT_PENDING:
+			return { 
+					...state, 
+					savingEvent:true,
+					error:""					
+					}
+		case A.DELETE_EVENT_FULFILLED:
+			return { 
+					...state, 
+					events:action.payload,
+					savingEvent:false,
+					error:""					
+					}
+		case A.DELETE_EVENT_REJECTED:
+			return { 
+					...state, 
+					error:action.payload.error
 					}
 		case A.UPDATE_EVENT_PENDING:
 			return { 
