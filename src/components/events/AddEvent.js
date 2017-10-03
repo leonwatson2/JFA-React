@@ -208,7 +208,7 @@ const mapStateToProps = state => ({
 })
 const mapdispatchToProps = dispatch => ({
 	cancelAddEvent:bindActionCreators(cancelCreateEvent, dispatch),
-	addEvent:event=>{ console.log("Add Event", event)}
+	addEvent:bindActionCreators(addEvent, dispatch)
 })
 
 export default connect(mapStateToProps, mapdispatchToProps)(AddEvent)
