@@ -30,7 +30,7 @@ export const authenticateUser = (email, password)=>{
 					return response.json()		
 				}).then(res=>{
 					if(res.error)
-						throw new Error( res.error)
+						throw new Error(res.error)
 					else {
 						localStorage.setItem(userStorageKey, JSON.stringify(res.user))
 						localStorage.setItem(tokenStorageKey, JSON.stringify(res.token))
