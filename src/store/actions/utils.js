@@ -11,3 +11,6 @@ export const apiEndpoint = '/api'
 export const userStorageKey = 'jfa_user'
 export const tokenStorageKey = '$$jfaToken'
 
+export const getUserToken = () => {
+	return JSON.parse(localStorage.getItem(tokenStorageKey))
+}
