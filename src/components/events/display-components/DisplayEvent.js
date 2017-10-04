@@ -24,8 +24,8 @@ export class DisplayEvent extends Component {
 			<div className="content">
 				<div className="information">
 					<EventDateTime 
-						startTime={event.start_time} 
-						endTime={event.end_time} />
+						startTime={event.startTime} 
+						endTime={event.endTime} />
 					<EventLocation location={event.location} />
 				</div>
 				<div className="photo"><img src={event.image_url} alt="" /></div>

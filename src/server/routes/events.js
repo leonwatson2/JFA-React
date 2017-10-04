@@ -100,9 +100,11 @@ function validToken(req, res, next){
 		const token = req.headers["authorization"].split(" ")[1]
 		req.token = token
 		jwt.verify(token, config.dbsecret, (err, data)=>{
-			if(err)
+			if(err){
 				handleError(res, "Invalid Token", "Invalid Token", responses.FORBIDDEN)
-			next()
+			}else{
+				next()
+			}
 		})
 	}else {
 		handleError(res, "No Auth token supplied.", "No Auth token supplied. i.e. Bearer {token}", responses.BAD_REQUEST)

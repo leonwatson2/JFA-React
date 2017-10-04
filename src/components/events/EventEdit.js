@@ -6,13 +6,13 @@ import { connect } from 'react-redux'
 export class EventEdit extends Component {
 	constructor(props) {
 	  super(props);
-	const { name, start_time, end_time, description, _id, image_url, location, type } = props.event
+	const { name, startTime, endTime, description, _id, image_url, location, type } = props.event
 	this.state = {
 	  	id:_id || null,
 	  	newName:name || "",
-	  	day:moment(start_time).format('YYYY-MM-DD'), 
-	  	newStartTime:moment(start_time).format('HH:mm') || moment(),
-	  	newEndTime:moment(end_time).format('HH:mm') || moment(),
+	  	day:moment(startTime).format('YYYY-MM-DD'), 
+	  	newStartTime:moment(startTime).format('HH:mm') || moment(),
+	  	newEndTime:moment(endTime).format('HH:mm') || moment(),
 	  	newDescription:description || "",
 	  	newLocation:location || "",
 	  	newType: type || "",
@@ -30,8 +30,8 @@ export class EventEdit extends Component {
 			newLocation, 
 			newType } = this.state
 		const { name, 
-				start_time, 
-				end_time, 
+				startTime, 
+				endTime, 
 				description, 
 				_id,
 				image_url, 
@@ -41,8 +41,8 @@ export class EventEdit extends Component {
 		let newEvent = {_id}
 
 		newEvent.name = this.isNewValue(name, newName)
-		newEvent.startTime = this.isNewValue(start_time, moment(`${day} ${newStartTime}`, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss'))
-		newEvent.endTime = this.isNewValue(end_time, moment(`${day} ${newEndTime}`, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss'))
+		newEvent.startTime = this.isNewValue(startTime, moment(`${day} ${newStartTime}`, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss'))
+		newEvent.endTime = this.isNewValue(endTime, moment(`${day} ${newEndTime}`, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss'))
 		newEvent.description = this.isNewValue(description, newDescription)
 		newEvent.imageUrl = this.isNewValue(image_url, newImageUrl)
 		newEvent.type = this.isNewValue(type, newType)
@@ -53,6 +53,7 @@ export class EventEdit extends Component {
 									}
 									return newOb
 								}, {})
+		console.log(newEvent, newType, type)
 		this.props.onSubmit(newEvent)
 	}
 
@@ -63,6 +64,7 @@ export class EventEdit extends Component {
 		console.log("Delete Event");
 	}
 	updateEventType(newType){
+		console.log(newType)
 		this.setState({newType});
 	}
 	
@@ -131,7 +133,7 @@ export class EventEdit extends Component {
 									<label tabIndex="0" 
 										htmlFor={`${eventType}-${id}`}
 										className={(eventType === newType) && 'active'}
-										onClick={ e => { this.updateEventType(e.target.value) }}>
+										onClick={ () => { this.updateEventType(eventType) }}>
 										<span>{eventType}</span>
 									</label>    
 								</div>

@@ -115,7 +115,7 @@ export class AddEvent extends Component {
 									<label tabIndex="0" 
 										htmlFor={`${eventType}-${id}`}
 										className={(eventType === newType) && 'active'}
-										onClick={ e => { this.updateEventType(e.target.value) }}>
+										onClick={ e => { this.updateEventType(eventType) }}>
 										<span>{eventType}</span>
 									</label>    
 								</div>

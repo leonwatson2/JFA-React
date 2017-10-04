@@ -37,13 +37,15 @@ export const eventsReducer = (state = initialState, action) => {
 		case A.ADD_EVENT_FULFILLED:
 			return { 
 					...state, 
-					events:action.payload,
+					events:[action.payload, ...state.events],
 					savingEvent:false,
+					creatingEvent:false,
 					error:""
 					}
 		case A.ADD_EVENT_REJECTED:
 			return { 
 					...state, 
+					error:action.payload.error,
 					savingEvent:false
 					}
 		case A.DELETE_EVENT_PENDING:
