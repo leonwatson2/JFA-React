@@ -18,11 +18,13 @@ class EventsComponent extends Component {
 	render() {
 		const { events, fetching, loggedIn, creatingEvent, createEvent} = this.props
 
-		if(events.length === 0) return <h2>{fetching ? 'Loading ': 'No '}Events</h2>
-
+		
 		return (
 			<div className="main">
 				{ loggedIn && !creatingEvent && <button className="btn" onClick={()=>{createEvent()}}>Add Event</button>}
+				{ 
+					events.length === 0 ? (<h2>{fetching ? 'Loading ': 'No '}Events</h2>) : null
+				}
 				{ loggedIn && creatingEvent && <AddEvent /> }
 				{
 					events.map(event => (<Event key={event._id} event={event} />))
