@@ -60,15 +60,15 @@ jfa-event-group{
   &.active{
     z-index:50;
   }
-}
-.content{
-  margin-top: 15px;
-   display:flex;
-  flex-direction:row;
-  align-items:center;
-  justify-content:space-between;
-  flex-wrap:wrap;
-  width: 100%;
+  .content{
+    margin-top: 15px;
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    width: 100%;
+  }
 }
 .information{
   line-height:1;
