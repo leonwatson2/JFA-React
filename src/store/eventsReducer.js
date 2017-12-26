@@ -57,7 +57,9 @@ export const eventsReducer = (state = initialState, action) => {
 		case A.DELETE_EVENT_FULFILLED:
 			return { 
 					...state, 
-					events:action.payload,
+					events:state.events.filter(event => {
+						return event._id !== action.payload
+					}),
 					savingEvent:false,
 					error:""					
 					}

@@ -4,8 +4,14 @@ import moment from 'moment'
 
 import FAClose from 'react-icons/lib/fa/close'
 import { ImageUpload } from '../utils/ImageUpload'
-
+import PropTypes from 'prop-types'
 export class EventEdit extends Component {
+	static propTypes = {
+		event:PropTypes.object.isRequired,
+		closeEdit:PropTypes.func,
+		onSubmit:PropTypes.func.isRequired,
+		deleteEvent: PropTypes.func.isRequired
+	}
 	constructor(props) {
 	  super(props);
 	const { name, startTime, endTime, description, _id, imageUrl, location, type } = props.event
@@ -57,18 +63,16 @@ export class EventEdit extends Component {
 									}
 									return newOb
 								}, {})
-		console.log(newEvent, newType, type)
 		this.props.onSubmit(newEvent)
 	}
 
 	isNewValue(oldVal, newVal){
 		return (oldVal !== newVal) ? newVal : null
 	}
-	deleteEvent(){
-		console.log("Delete Event");
+	deleteEvent = ()=>{
+		this.props.deleteEvent(this.props.event)
 	}
 	updateEventType(newType){
-		console.log(newType)
 		this.setState({newType});
 	}
 	
@@ -233,7 +237,6 @@ export class EventEdit extends Component {
 const mapStateToProps = state => ({
 	savingEvent:state.events.savingEvent,
 })
-
 export default connect(mapStateToProps)(EventEdit)
 const eventTypes = [
 				"Fire Night",

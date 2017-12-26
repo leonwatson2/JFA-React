@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 import DisplayEvent from './display-components/DisplayEvent'
 import EventEdit from './EventEdit'
-import { updateEvent } from '../../store/actions/eventActions'
+import { updateEvent, deleteEvent } from '../../store/actions/eventActions'
 
 export class Event extends Component {
 	constructor(props) {
@@ -30,6 +30,7 @@ export class Event extends Component {
 					: 
 					<EventEdit 
 						event={event} 
+						deleteEvent = { this.props.deleteEvent }
 						closeEdit = {()=>{ this.toggleEdit(false)}} 
 						onSubmit={ this.updateEvent }/>
 				
@@ -38,7 +39,8 @@ export class Event extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-	updateEvent:bindActionCreators(updateEvent, dispatch)
+	updateEvent:bindActionCreators(updateEvent, dispatch),
+	deleteEvent:bindActionCreators(deleteEvent, dispatch)
 })
 
 export default connect(()=>({}), mapDispatchToProps)(Event)

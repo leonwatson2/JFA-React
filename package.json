@@ -43,6 +43,7 @@
     "react-router-dom": "^4.1.1",
     "redux": "^3.7.2",
     "redux-promise-middleware": "^4.4.1",
+    "redux-saga": "^0.16.0",
     "redux-thunk": "^2.2.0",
     "url-loader": "0.5.9",
     "whatwg-fetch": "2.0.3"

@@ -112,14 +112,18 @@ router.put('/', (req, res)=>{
 
 router.delete('/:id', (req, res)=>{
 	const { id } = req.params
-	
-	EventModel.deleteOne({_id:id}, (err, result)=>{
+	if(id){
+
+		EventModel.deleteOne({_id:id}, (err, result)=>{
 			if(err){
 				handleError(res, err, "Something went wrong deleting that.")
 			}else{
 				res.sendStatus(responses.NO_CONTENT)
 			}
 		})
+	}	else {
+		res.status(responses.BAD_REQUEST).json({ error: "No id given" })
+	}
 })
 module.exports = router
 
