@@ -1,5 +1,6 @@
 import { call, take, put, fork } from "redux-saga/effects";
 import { eventActionTypes as E } from "../actions/eventActions";
+import { getUserToken } from "../actions/utils";
 
 //PENDING, REJECTED, FULFILLED
 const headers = {
@@ -8,6 +9,21 @@ const headers = {
 const getEvents = () => {
   return fetch("/api/events", { method: "GET" }).then(res => res.json());
 };
+const addEvent = (event)=>{
+    const headers = new Headers({
+      "Authorization": `Bearer ${getUserToken()}`,
+      "Content-type":"application/json"
+    })
+    const body = JSON.stringify({ event })
+    return fetch("/api/events", { headers, method:"POST", body })
+          .then(res => {
+            return res.json()
+          }).then(data => {
+            if(data.error)
+              throw data.error
+            return data
+          })
+      }
 const updateEvent = newEvent => {
   const init = {
     headers: headers,
@@ -34,10 +50,20 @@ const getEventFlow = function*() {
   while (true) {
     yield take(E.GET_EVENTS);
     yield put({ type: E.GET_EVENTS_PENDING });
-    const response = yield call(getEvents);
+    let response = yield call(getEvents);
     yield put({ type: E.GET_EVENTS_FULFILLED, payload: response });
   }
 };
+
+const addEventFlow = function*(){
+  while (true) {
+    const { payload } = yield take(E.ADD_EVENT)
+    yield put({ type:E.ADD_EVENT_PENDING })
+    console.log(payload)
+    let response = yield call(addEvent,payload)
+    yield put({ type:E.ADD_EVENT_FULFILLED, payload:response })
+  }
+}
 
 const updateEventFlow = function*() {
   while (true) {
@@ -66,6 +92,7 @@ const deleteEventFlow = function*(){
 }
 
 export const eventsSaga = function*() {
+  yield fork(addEventFlow);
   yield fork(getEventFlow);
   yield fork(updateEventFlow);
   yield fork(deleteEventFlow)
