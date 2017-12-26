@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { withRouter, Redirect } from 'react-router'
-
+import { DashboardMenu } from './OfficerDashboard/DashboardMenu'
 class OfficerDashboard extends Component {
 	componentWillMount() {
 		if(!this.props.officer)
@@ -13,7 +13,10 @@ class OfficerDashboard extends Component {
 			return <Redirect to="/signin/" />
 		}
 		return (
-			<div><h2>Officer Dashboard - { officer && officer.name }</h2></div>
+			<div><h2>Officer Dashboard - { officer && officer.name }</h2>
+			<DashboardMenu  />
+			
+			</div>
 		);
 	}
 }

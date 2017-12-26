@@ -12,6 +12,7 @@ import OfficerDashboard from './components/dashboards/OfficerDashboard'
 import NotFound from './components/NotFound'
 import Footer from './components/Footer'
 import './styles/App.scss';
+import { UpdateOfficers } from './components/dashboards/OfficerDashboard/UpdateOfficers';
 
 class App extends Component {
 
@@ -82,5 +83,9 @@ export const routeConfig = [
 				component:OfficerDashboard,
 				title:"Dashboard",
 				admin:true
+			},
+			{
+				path:'/update/officers',
+				component:UpdateOfficers
 			}
 		]
