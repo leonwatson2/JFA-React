@@ -31,3 +31,4 @@ public/manifest.json
 .env
 config.js
 TODO.md
+src/server/routes/aws.config.json
