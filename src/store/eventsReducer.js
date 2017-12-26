@@ -98,6 +98,23 @@ export const eventsReducer = (state = initialState, action) => {
 				...state,
 				creatingEvent:false
 			}
+		case A.UPLOAD_PICTURE_PENDING:
+			return { 
+					...state, 
+					uploading:true,
+					error:""
+					}
+		case A.UPLOAD_PICTURE_FULFILLED:
+			return { 
+					...state, 
+					uploading:false,
+					error:""
+					}
+		case A.UPLOAD_PICTURE_REJECTED:
+			return { 
+					...state, 
+					error:action.payload.error,
+					}
 		default: 
 	}
 	return state

@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import moment from 'moment'
-import FAClose from 'react-icons/lib/fa/close'
 import { connect } from 'react-redux'
+import moment from 'moment'
+
+import FAClose from 'react-icons/lib/fa/close'
+import { ImageUpload } from '../utils/ImageUpload'
 
 export class EventEdit extends Component {
 	constructor(props) {
 	  super(props);
-	const { name, startTime, endTime, description, _id, image_url, location, type } = props.event
+	const { name, startTime, endTime, description, _id, imageUrl, location, type } = props.event
 	this.state = {
 	  	id:_id || null,
 	  	newName:name || "",
@@ -16,7 +18,8 @@ export class EventEdit extends Component {
 	  	newDescription:description || "",
 	  	newLocation:location || "",
 	  	newType: type || "",
-	  	newImageUrl: image_url || null
+			newImageUrl: imageUrl || null,
+			newImageFile: null  
 	  };
 	}
 	handleSubmit = (e)=> {
@@ -28,13 +31,14 @@ export class EventEdit extends Component {
 			newDescription, 
 			newImageUrl, 
 			newLocation, 
-			newType } = this.state
+			newType
+		 } = this.state
 		const { name, 
 				startTime, 
 				endTime, 
 				description, 
 				_id,
-				image_url, 
+				imageUrl, 
 				location, 
 				type } = this.props.event
 
@@ -44,7 +48,7 @@ export class EventEdit extends Component {
 		newEvent.startTime = this.isNewValue(startTime, moment(`${day} ${newStartTime}`, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss'))
 		newEvent.endTime = this.isNewValue(endTime, moment(`${day} ${newEndTime}`, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss'))
 		newEvent.description = this.isNewValue(description, newDescription)
-		newEvent.imageUrl = this.isNewValue(image_url, newImageUrl)
+		newEvent.imageUrl = this.isNewValue(imageUrl, newImageUrl)
 		newEvent.type = this.isNewValue(type, newType)
 		newEvent.location = this.isNewValue(location, newLocation)
 		newEvent = Object.keys(newEvent).reduce((newOb, key)=> {
@@ -68,16 +72,32 @@ export class EventEdit extends Component {
 		this.setState({newType});
 	}
 	
-	updateImg = (e) => {
-		const reader = new FileReader()
-		const file = e.target.files[0]
-		reader.onloadend = (data)=>{
+	updateImg = imageFiles => {
 			this.setState({
-				newImageUrl:reader.result
-			});
-		}
-		reader.readAsDataURL(file)
+				newImageFile:imageFiles[0]
+			})
+			this.uploadImage(imageFiles[0])
+				.then(res=>res.json())
+				.then(({imageUrl})=>{
+					console.log(imageUrl)
+					this.setState({newImageUrl:imageUrl})
+				})
+				
 	}
+	uploadImage = imageFile =>{
+		let form = new FormData()
+		form.append('file', imageFile)
+		form.append('type', "Event")
+		const init = {
+		  method:"POST",
+		  body:form
+		}
+	
+		return fetch('/api/events/image/upload', init).catch((err)=>{
+			console.log(err)
+		})
+	}
+
 	updateStartTime(value, isTime){
 		if(isTime){
 			const { newStartTime, newEndTime } = this.state
@@ -103,7 +123,6 @@ export class EventEdit extends Component {
 				newLocation, 
 				newType } = this.state
 
-		const editedImageUrl = newImageUrl || "http://24.media.tumblr.com/tumblr_lyho2ghTM71qenqklo1_1280.jpg"
 		return (
 		<div className="card event">
 			<button className="edit-button" onClick={ closeEdit } title="Cancel Edit Event">
@@ -184,21 +203,12 @@ export class EventEdit extends Component {
 								onChange = { e => { this.setState({newLocation:e.target.value}); } }/>
 						</div>
 					</div>
-					<div className = "photo">
-						<img src = { editedImageUrl } alt = "" />
-						<input 
-							type = "file" 
-							name = "the_file" 
-							onChange = { this.updateImg }
-							accept = "image/*, video/*"
+					<ImageUpload 
+						onChange = { this.updateImg } 
+						containerClassNames={'photo'}
+						showImage={true}
+						previewImgSrc={newImageUrl}
 						/>
-						<div>
-							
-							<button onClick = {(e) =>{e.preventDefault()}}>Upload</button>
-
-						</div>
-					</div>
-					
 					<textarea 
 						className = "description" 
 						name = "description" 
@@ -221,7 +231,7 @@ export class EventEdit extends Component {
 	}
 }
 const mapStateToProps = state => ({
-	savingEvent:state.events.savingEvent
+	savingEvent:state.events.savingEvent,
 })
 
 export default connect(mapStateToProps)(EventEdit)

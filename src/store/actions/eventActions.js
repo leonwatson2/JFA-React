@@ -13,6 +13,7 @@ export const eventActionTypes = {
 	CANCEL_CREATE_EVENT:"CANCEL_CREATE_EVENT"
 }
 
+
 export const getEvents = ()=>{
 	return {
 		type:eventActionTypes.GET_EVENTS,

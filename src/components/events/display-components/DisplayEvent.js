@@ -28,7 +28,7 @@ export class DisplayEvent extends Component {
 						endTime={event.endTime} />
 					<EventLocation location={event.location} />
 				</div>
-				<div className="photo"><img src={event.image_url} alt="" /></div>
+				<div className="photo"><img src={event.imageUrl} alt="" /></div>
 				<p className="description">{event.description}</p>
 			</div>
 			<div className="footer"> 

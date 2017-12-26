@@ -11,7 +11,7 @@ const eventSchema = mongoose.Schema({
   id: Number,
   creator: String,
   date_created: Date, //'2016-09-11 22:32:24',
-  image_url: String 
+  imageUrl: String 
 }, { versionKey:false, timestamps:{ createdAt:"date_created" } })
 
 

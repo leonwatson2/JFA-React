@@ -4,6 +4,7 @@ import FAClose from 'react-icons/lib/fa/close'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { addEvent, cancelCreateEvent } from '../../store/actions/eventActions'
+import { ImageUpload } from '../utils/ImageUpload'
 
 export class AddEvent extends Component {
 	constructor(props) {
@@ -49,15 +50,30 @@ export class AddEvent extends Component {
 		this.setState({newType});
 	}
 	
-	updateImg = (e) => {
-		const reader = new FileReader()
-		const file = e.target.files[0]
-		reader.onloadend = (data)=>{
-			this.setState({
-				newImageUrl:reader.result
-			});
+	updateImg = imageFiles => {
+		this.setState({
+			newImageFile:imageFiles[0]
+		})
+		this.uploadImage(imageFiles[0])
+			.then(res=>res.json())
+			.then(({imageUrl})=>{
+				console.log(imageUrl)
+				this.setState({ newImageUrl:imageUrl })
+			})
+	}
+
+	uploadImage = imageFile =>{
+		let form = new FormData()
+		form.append('file', imageFile)
+		form.append('type', "Event")
+		const init = {
+			method:"POST",
+			body:form
 		}
-		reader.readAsDataURL(file)
+
+		return fetch('/api/events/image/upload', init).catch((err)=>{
+			console.log(err)
+		})
 	}
 	updateStartTime(value, isTime){
 		if(isTime){
@@ -167,20 +183,12 @@ export class AddEvent extends Component {
 								onChange = { e => { this.setState({newLocation:e.target.value}); } }/>
 						</div>
 					</div>
-					<div className = "photo">
-						<img src = { editedImageUrl } alt = "" />
-						<input 
-							type = "file" 
-							name = "the_file" 
-							onChange = { this.updateImg }
-							accept = "image/*, video/*"
-						/>
-						<div>
-							
-							<button onClick = {(e) =>{e.preventDefault()}}>Upload</button>
-
-						</div>
-					</div>
+					<ImageUpload 
+						onChange = { this.updateImg } 
+						containerClassNames={'photo'}
+						showImage={true}
+						previewImgSrc={newImageUrl}
+					/>
 					
 					<textarea 
 						className = "description" 

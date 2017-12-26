@@ -5,6 +5,12 @@ const jwt = require('jsonwebtoken')
 const config = require('../../../config.js')
 const { responses, hasParams } = require('./utils.js')
 const MemberModel = require('../models/members').model
+const AWS = require('aws-sdk')
+const multipartMiddleware = require('connect-multiparty')()
+const fs = require('fs')
+const bucketName = "unt-jfa"
+AWS.config.loadFromPath(__dirname +'/aws.config.json')
+const uploadToAwsBucketEvent = require('../utils/awsUpload')(bucketName, new AWS.S3())
 
 /* /api/events
 * GET: get all the events
@@ -25,30 +31,52 @@ router.get('/', (req, res)=>{
 	})
 })
 
+//Event, EventPhoto, 
+router.post('/image/upload', multipartMiddleware, (req, res)=>{
+	
+	let filePath = req.files.file.path
+	const image = fs.createReadStream(filePath)
+
+	const imageName = camelCase(`event${new Date().toUTCString()}`)
+	uploadToAwsBucketEvent(imageName, image, function uploadCallback(err, result){
+		if(err) {
+			if(err.code === "RequestTimeout"){
+				console.log(err)
+				uploadToAwsBucketEvent(imageName, image, uploadCallback)
+			}else{
+				return res.status(500).json({ err })
+			}
+		}else{
+			res.status(200).json({ imageUrl:`https://s3.amazonaws.com/${bucketName}/${imageName}`})
+		}
+	})
+})  
+
+
+
 router.post('/:eventId/members/:memberId', hasParams(['memberId', 'eventId']), (req, res)=>{
 	const { memberId, eventId } = req.params
 	EventModel.count({ _id: eventId } , (err, count)=>{
 	  
 	  if(err){
-		handleError(res, "DB error", err.message, responses.BAD_REQUEST)
+			handleError(res, "DB error", err.message, responses.BAD_REQUEST)
 	  }else if(count <= 0){
-		handleError(res, "Event not found.", "Event not found", responses.BAD_REQUEST)
+			handleError(res, "Event not found.", "Event not found", responses.BAD_REQUEST)
 	  }else{
 		
 		MemberModel.findOne({_id:memberId}, (err, member)=>{
 		  if(err){
-			handleError(res, "DB error", err.message, responses.BAD_REQUEST)
+				handleError(res, "DB error", err.message, responses.BAD_REQUEST)
 		  }else{
-			EventModel.addCheckIn(eventId, memberId, (err, result)=>{
-				res.status(responses.OK).json({count, member})
-			})
+				EventModel.addCheckIn(eventId, memberId, (err, result)=>{
+					res.status(responses.OK).json({count, member})
+				})
 		  }
 		})
 	  } 
 	})
-  })
+})
   
-
 router.post('/', validToken, (req, res)=>{
 	const { event } = req.body
 	if(event){
@@ -109,4 +137,13 @@ function validToken(req, res, next){
 	}else {
 		handleError(res, "No Auth token supplied.", "No Auth token supplied. i.e. Bearer {token}", responses.BAD_REQUEST)
 	}
+}
+/**
+ * 
+ * @param {string} string to camel cased
+ */
+function camelCase(string){
+	return string.replace(/(?:^\w|[A-Z]|\b\w)/g, function(letter, index) {
+			return index == 0 ? letter.toLowerCase() : letter.toUpperCase();
+		}).replace(/(\s+|,)/g, '');
 }

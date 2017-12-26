@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import DisplayEvent from './display-components/DisplayEvent'
-import { EventEdit } from './EventEdit'
+import EventEdit from './EventEdit'
 import { updateEvent } from '../../store/actions/eventActions'
 
 export class Event extends Component {
