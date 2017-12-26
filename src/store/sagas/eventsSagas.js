@@ -59,7 +59,6 @@ const addEventFlow = function*(){
   while (true) {
     const { payload } = yield take(E.ADD_EVENT)
     yield put({ type:E.ADD_EVENT_PENDING })
-    console.log(payload)
     let response = yield call(addEvent,payload)
     yield put({ type:E.ADD_EVENT_FULFILLED, payload:response })
   }
