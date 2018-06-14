@@ -4,16 +4,10 @@ import { Route, Switch } from 'react-router-dom'
 
 import ScrollToTop from './ScrollToTop'
 import Hero from './components/Hero'
-import Home from './components/home/Home'
-import Gallery from './components/gallery/Gallery'
-import { Events } from './components/events/Events'
-import SignInContainer from './components/signin/SignInContainer'
-import OfficerDashboard from './components/dashboards/OfficerDashboard'
 import NotFound from './components/NotFound'
 import Footer from './components/Footer'
 import './styles/App.scss';
-import { UpdateOfficers } from './components/dashboards/OfficerDashboard/UpdateOfficers';
-
+import routeConfig from './routeConfig'
 class App extends Component {
 
 	getHeroPropsFromLocation = (routes, location)=>{
@@ -54,38 +48,3 @@ export const renderRouteWithSubRoutes = (route, i)=>{
 
 
 }
-
-export const routeConfig = [
-			{
-				path:'/',
-				component:Home,
-				title:"Home"
-			},
-			{
-				path:'/gallery/',
-				optionalParams:[':id?'],
-				component:Gallery,
-				title:"Gallery",
-				
-			},
-			{
-				path:'/signin/',
-				component:SignInContainer,
-				title:"Sign In"
-			},
-			{
-				path:'/events/',
-				component:Events,
-				title:"Events"
-			},
-			{
-				path:'/dashboard/',
-				component:OfficerDashboard,
-				title:"Dashboard",
-				admin:true
-			},
-			{
-				path:'/update/officers',
-				component:UpdateOfficers
-			}
-		]
