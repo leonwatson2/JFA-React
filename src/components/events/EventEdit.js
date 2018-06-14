@@ -82,9 +82,9 @@ export class EventEdit extends Component {
 			})
 			this.uploadImage(imageFiles[0])
 				.then(res=>res.json())
-				.then(({imageUrl})=>{
+				.then(({ imageUrl })=>{
 					console.log(imageUrl)
-					this.setState({newImageUrl:imageUrl})
+					this.setState({ newImageUrl:imageUrl })
 				})
 				
 	}

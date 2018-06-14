@@ -185,9 +185,9 @@ export class AddEvent extends Component {
 					</div>
 					<ImageUpload 
 						onChange = { this.updateImg } 
-						containerClassNames={'photo'}
-						showImage={true}
-						previewImgSrc={newImageUrl}
+						containerClassNames={ 'photo' }
+						showImage={ true }
+						previewImgSrc={ editedImageUrl }
 					/>
 					
 					<textarea 

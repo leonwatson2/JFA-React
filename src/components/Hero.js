@@ -6,8 +6,6 @@ export default class Hero extends Component {
 	render() {
 		const { title, miniHero } = this.props;
 		return (
-		<div>
-			
 			<section id="home-hero" className={ miniHero && `mini-hero`}>
 				<Navigation />
 				<div className="content">
@@ -17,9 +15,6 @@ export default class Hero extends Component {
 					
 				</div>
 			</section>
-
-
-		</div>
 		);
 	}
 }

@@ -4,26 +4,26 @@ const EventModel = require("./events").Model
 const memberSchema = mongoose.Schema({
     "name": String,
     "email": {
-        type:String,
+        type: String,
         validate:{
-            isAsync:true,
-            validator:function(email, callback){
-                memberModel.find({email:email}, (err, doc)=>{
+            isAsync: true,
+            validator: function(email, callback){
+                memberModel.find({email: email}, (err, doc)=>{
                     callback(doc.length === 0)
                     
                 })
             },
             message:"Email already in use.",
-            required:true
+            required: true
         }
     },
-    "studentId": { type:String, default:"" },
-    "hasPaid": { type:Boolean, default:false },
-    "shirtSize": { type:String, default:"" },
-    "dateJoined": { type:Date, default:Date.now },
-    "numberOfCheckins": { type:Number, default:0 },
+    "studentId": { type: String, default:"" },
+    "hasPaid": { type: Boolean, default: false },
+    "shirtSize": { type: String, default:"" },
+    "dateJoined": { type: Date, default: Date.now },
+    "numberOfCheckins": { type: Number, default: 0 },
     "lastCheckIn": Date
-}, { versionKey:false })
+}, { versionKey: false })
 
 memberSchema.methods.updateEmail = function (newEmail){
     this.email = newEmail

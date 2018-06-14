@@ -1,5 +1,5 @@
 // import data from '../../data/events.json';
-import { createPromiseActionsFor, getUserToken } from "./utils";
+import { createPromiseActionsFor } from "./utils";
 
 const addEventActionTypes = createPromiseActionsFor("ADD_EVENT");
 const getEventActionTypes = createPromiseActionsFor("GET_EVENTS");

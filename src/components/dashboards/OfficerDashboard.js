@@ -13,8 +13,9 @@ class OfficerDashboard extends Component {
 			return <Redirect to="/signin/" />
 		}
 		return (
-			<div><h2>Officer Dashboard - { officer && officer.name }</h2>
-			<DashboardMenu  />
+			<div className="section__main">
+				<h2>Officer Dashboard - { officer && officer.name }</h2>
+				<DashboardMenu  />
 			
 			</div>
 		);

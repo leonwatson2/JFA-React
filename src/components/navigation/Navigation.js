@@ -3,7 +3,7 @@ import { NavLink, Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import { routeConfig } from '../../App'
+import { routeConfig } from '../../routeConfig'
 import { logoutUser } from '../../store/actions/userActions'
 
 export class Navigation extends Component {
@@ -26,8 +26,8 @@ export class Navigation extends Component {
 			<label className="nav-trigger" htmlFor="nav-toggle"><span></span></label>
 			<ul className="nav">
 				{
-					routeConfig.filter(({admin})=>{
-						return (admin === undefined || admin === loggedIn)
+					routeConfig.filter(({admin, show})=>{
+						return (admin === undefined || admin === loggedIn ) && show !== false
 					}).map(({path, title})=>(
 						<NavLink exact 
 							key={path} 

@@ -70,7 +70,6 @@ const updateEventFlow = function*() {
     yield put({ type: E.UPDATE_EVENT_PENDING });
     try {
       const event = yield call(updateEvent, payload);
-      console.log(event);
       yield put({ type: E.UPDATE_EVENT_FULFILLED, payload: event });
     } catch (e) {
       yield put({ type: E.UPDATE_EVENT_REJECTED });
@@ -81,11 +80,13 @@ const updateEventFlow = function*() {
 const deleteEventFlow = function*(){
   while (true) {
     const { payload } = yield take(E.DELETE_EVENT)
-    console.log(payload)
     yield put({ type: E.DELETE_EVENT_PENDING })
     const { err, status } = yield call(deleteEvent, payload)
-    console.log(err, status)
-    yield put({ type: E.DELETE_EVENT_FULFILLED, payload:payload._id })
+    if(!err){
+      yield put({ type: E.DELETE_EVENT_FULFILLED, payload:payload._id })
+    }else{
+      console.log(err, status)
+    }
 
   }
 }

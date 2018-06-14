@@ -11,12 +11,12 @@
 @import "events";
 @import "Navigation";
 
-$mainHeadings:("h1":4em, "h2":3.5em, "h3":3em, "h4":2.5em, "h5":2, "h6":1.75);
+$mainHeadings:("h1": 4em, "h2": 3.5em, "h3": 3em, "h4": 2.5em, "h5": 2, "h6": 1.75);
 
 
 ul{
-	padding:0;
-	list-style:none;
+	padding: 0;
+	list-style: none;
 }
 
 @each $heading, $fontsize in $mainHeadings{
@@ -53,7 +53,7 @@ section{
 	text-align: center;
 	transition: .75s ease-out;
 	.content{
-		padding:7em 2em 8em;
+		padding: 7em 2em 8em;
 		p{
 			font-size: 1.5em;
 		}
@@ -66,26 +66,26 @@ section{
 
 .cd-logo{
 	img{	
-		height:80px;
+		height: 80px;
 	}
 }
 
 #home-hero{
-	height:600px;
-	background-image:url('../assets/images/JugFest2016.png');
+	height: 600px;
+	background-image: url('../assets/images/JugFest2016.png');
 	background-size: cover;
 	
 	@include MQ(M){
-		background-image:url('../assets/images/JugFest2016-lg.jpg');
+		background-image: url('../assets/images/JugFest2016-lg.jpg');
 		background-repeat: no-repeat;
 	}
 
 	background-position: 25%;
-	// background:url('/jfa/references/JFA-Sparklers1020x600.jpg');
+	// background: url('/jfa/references/JFA-Sparklers1020x600.jpg');
 		h1{
 			width: 100%;
 			font-size: 4em;
-			color:white;
+			color: white;
 			small{
 				display: block;
 				color:$brand-primary;
@@ -98,14 +98,14 @@ section{
 			clear: both;
 			height: 100%;
 			padding: 0;
-			display:flex;
-			align-content:center;
-			align-items:center;
-			justify-content:center;
-			flex-wrap:wrap;
+			display: flex;
+			align-content: center;
+			align-items: center;
+			justify-content: center;
+			flex-wrap: wrap;
 			@include MQ(M){
-				align-items:flex-start;
-				align-content:flex-start;
+				align-items: flex-start;
+				align-content: flex-start;
 			}
 
 		}
@@ -139,26 +139,26 @@ section{
 		.promo-img-#{$direction}{
 			content: "";
 			position: absolute;
-			top:0;
-			left:0;
+			top: 0;
+			left: 0;
 			width: 100%;
 			height: 100%;
-			z-index:3;
+			z-index: 3;
 			img{
 				position: absolute;
-				#{$direction}:0;
+				#{$direction}: 0;
 				width: 100%;
 				height: 100%;
 			}
 			&::after{
 				content:"";
 				position: absolute;
-				left:0;
-				right:0;
-				top:0;
-				bottom:0;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
 			}
-			$promoGradientStops:(XS:90%, S:75%, M:40%, L:35%, XL:25%);
+			$promoGradientStops:(XS: 90%, S: 75%, M: 40%, L: 35%, XL: 25%);
 				@each $screenSize, $stop in $promoGradientStops {
 					@include MQ($screenSize){
 						&::after{
@@ -189,9 +189,9 @@ section{
 
 	margin-bottom: 50px;
 	.videos{
-		display:flex;
-		flex-direction:column;
-		align-items:center;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 		.video{
 			height: 400px;
 			margin: 40px 10px;
@@ -207,9 +207,9 @@ section{
 			height: 100%;
 		}
 		@include MQ(L){
-			flex-direction:row;
-			flex-wrap:wrap;
-			justify-content:center;
+			flex-direction: row;
+			flex-wrap: wrap;
+			justify-content: center;
 			.video{
 				height: 250px;
 				width: 25%;
@@ -227,18 +227,18 @@ section{
 	right: 0;
 	margin-top: 100px;
 	padding-top: 10px;
-	min-height:100px;
-	display:flex;
-	align-items:center;
-	align-content:center;
-	flex-direction:column;
+	min-height: 100px;
+	display: flex;
+	align-items: center;
+	align-content: center;
+	flex-direction: column;
 
 	background-color:#BF2200;
 	@include MQ(M) {
 		padding: 5px 6%;
-		align-items:center;
-		flex-direction:row;
-		justify-content:space-between;
+		align-items: center;
+		flex-direction: row;
+		justify-content: space-between;
 		min-height: 80px;
 	}
 	ul{
@@ -246,34 +246,34 @@ section{
 		padding-left: 5px;
 	}
 	.links{
-		display:flex;
-		flex-direction:column;
+		display: flex;
+		flex-direction: column;
 		@include MQ(M){
 			
-			align-items:space-around;
+			align-items: space-around;
 		}
 		a{
-			color:black;
+			color: black;
 		}
 	}
 	.copyright{
-		display:flex;
-		flex-direction:column;
-		align-content:space-around;
-		color:black;
+		display: flex;
+		flex-direction: column;
+		align-content: space-around;
+		color: black;
 		margin-bottom: 20px;
 	}
 	.foot-nav{
-		display:flex;
-		align-items:center;
-		align-content:center;
-		flex-direction:row;
-		justify-content:center;
+		display: flex;
+		align-items: center;
+		align-content: center;
+		flex-direction: row;
+		justify-content: center;
 		@include MQ(M){
-			flex-direction:row;
+			flex-direction: row;
 		}
 		li{
-			margin:10px 10px;
+			margin: 10px 10px;
 			padding: 5px 3px;
 		}
 	}
@@ -281,12 +281,12 @@ section{
 
 /* Social Icons */
 .socials{
-	display:flex;
-	align-items:center;
-	align-content:center;
-	justify-content:space-around;
+	display: flex;
+	align-items: center;
+	align-content: center;
+	justify-content: space-around;
 	span{
-		color:white;
+		color: white;
 		font-size: 2em;
 		margin-right: 10px;
 		margin-bottom: 5px;
@@ -299,17 +299,37 @@ section{
 	padding: 0px;
 	color: white;
 	transition:.1s;
-	transition-timing-function:ease-in;
+	transition-timing-function: ease-in;
 }
 .badge.social i{
 	transition:.1s;
-	transition-timing-function:ease-out;
+	transition-timing-function: ease-out;
 }
 .badge.social:hover i{
-	transform:scale(.9);
-	transition-timing-function:ease-in;
+	transform: scale(.9);
+	transition-timing-function: ease-in;
 	
 }
 .badge.social.twitter:hover{color: #55acee !important; }
 .badge.social.facebook:hover{color: #3b5998 !important; }
 .badge.social.instagram:hover{color: #517fa4 !important; }
+.section__main{
+	padding: 10px 20px;	
+}
+.dashboard{
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-column-gap: 2rem;
+	&__section{
+		justify-content: flex-start;
+		padding: 10px 20px;
+		font-size: 2rem;
+	}
+	&__section-list{
+		width: 100%;
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		grid-row-gap: 1rem
+
+	}
+}

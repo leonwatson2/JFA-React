@@ -32,5 +32,32 @@
                 "params":[{"name":"id", "value":"The id of the event to be deleted."}]
             }
         ]
+    },
+    "users":{
+        "schema":{
+            "name":"string",
+            "email":"string",
+            "position":"string",
+            "password":"string",
+            "euid":"string"
+        },
+        "path":"/api/users",
+        "endpoints":[{
+            "method":"GET",
+            "endpoint":"/api/users/",
+            "returns":"Events"
+        },{
+            "method":"POST",
+            "endpoint":"/api/users/",
+            "body":{"user": "User"}
+        },{
+            "method":"PUT",
+            "endpoint":"/api/users/",
+            "body":{"user": "User"}            
+        },{
+            "method":"DELETE",
+            "endpoint":"/api/users/:id",
+            "params":[{ "id": "id of the officer to delete" }]
+        }]
     }
 }]
